@@ -1,0 +1,225 @@
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysqldb
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: "123456"
+    healthcheck:
+      test: [ "CMD-SHELL", "mysqladmin ping -h localhost -u root -p123456 || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - clowderline
+
+  mysql-init:
+    image: mysql:8.0
+    container_name: mysql-init
+    depends_on:
+      mysqldb:
+        condition: service_healthy
+    command: >
+      sh -c "
+      mysql -h mysqldb -u root -p123456 -e '
+      CREATE DATABASE IF NOT EXISTS user_database;
+      CREATE DATABASE IF NOT EXISTS salon_database;
+      CREATE DATABASE IF NOT EXISTS category_database;
+      CREATE DATABASE IF NOT EXISTS offering_database;
+      CREATE DATABASE IF NOT EXISTS booking_database;
+      CREATE DATABASE IF NOT EXISTS payment_database;
+      '"
+    networks:
+      - clowderline
+
+  eurekaserver:
+    image: clowderline/salon-eureka:v1
+    container_name: eurekaserver
+    ports:
+      - "8070:8070"
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8070/actuator/health/readiness | grep UP || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    networks:
+      - clowderline
+
+  gatewayserver:
+    image: clowderline/salon-gateway:v1
+    container_name: gatewayserver
+    ports:
+      - "8000:8000"
+    depends_on:
+      eurekaserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: gateway-server
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+    networks:
+      - clowderline
+
+  user:
+    image: clowderline/salon-user:v1
+    container_name: user
+    ports:
+      - "8001:8001"
+    depends_on:
+      mysql-init:
+        condition: service_completed_successfully
+      eurekaserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: user-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/user_database
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "123456"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8001/actuator/health/readiness | grep UP || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - clowderline
+
+  salon:
+    image: clowderline/salon-service:v1
+    container_name: salon
+    ports:
+      - "8002:8002"
+    depends_on:
+      mysql-init:
+        condition: service_completed_successfully
+      eurekaserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: salon-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/salon_database
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "123456"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8002/actuator/health/readiness | grep UP || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - clowderline
+
+  category:
+    image: clowderline/salon-category:v1
+    container_name: category
+    ports:
+      - "8003:8003"
+    depends_on:
+      mysql-init:
+        condition: service_completed_successfully
+      eurekaserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: category-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/category_database
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "123456"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8003/actuator/health/readiness | grep UP || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - clowderline
+
+  offering:
+    image: clowderline/salon-offering:v1
+    container_name: offering
+    ports:
+      - "8004:8004"
+    depends_on:
+      mysql-init:
+        condition: service_completed_successfully
+      eurekaserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: offering-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/offering_database
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "123456"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8004/actuator/health/readiness | grep UP || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - clowderline
+
+  booking:
+    image: clowderline/salon-booking:v1
+    container_name: booking
+    ports:
+      - "8005:8005"
+    depends_on:
+      mysql-init:
+        condition: service_completed_successfully
+      eurekaserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: booking-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/booking_database
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "123456"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8005/actuator/health/readiness | grep UP || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - clowderline
+
+  payment:
+    image: clowderline/salon-payment:v1
+    container_name: payment
+    ports:
+      - "8006:8006"
+    depends_on:
+      mysql-init:
+        condition: service_completed_successfully
+      eurekaserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: payment-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/payment_database
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "123456"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8006/actuator/health/readiness | grep UP || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - clowderline
+
+networks:
+  clowderline:
+    driver: bridge
