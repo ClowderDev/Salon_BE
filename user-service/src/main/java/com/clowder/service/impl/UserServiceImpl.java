@@ -1,8 +1,10 @@
 package com.clowder.service.impl;
 
+import com.clowder.dto.request.KeycloakUserDTO;
 import com.clowder.exception.UserException;
 import com.clowder.model.User;
 import com.clowder.repository.UserRepository;
+import com.clowder.service.KeycloakService;
 import com.clowder.service.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
+  private final KeycloakService keycloakService;
 
   @Override
   public User createUser(User user) {
@@ -26,13 +29,17 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public User getUserById(Long id) {
-    return userRepository.findById(id).orElseThrow(() -> new UserException("User not found with id: " + id));
+    return userRepository
+        .findById(id)
+        .orElseThrow(() -> new UserException("User not found with id: " + id));
   }
 
   @Override
   public User updateUser(Long id, User user) {
-    User existing = userRepository.findById(id)
-        .orElseThrow(() -> new UserException("User not found with id: " + id));
+    User existing =
+        userRepository
+            .findById(id)
+            .orElseThrow(() -> new UserException("User not found with id: " + id));
 
     existing.setFullName(user.getFullName());
     existing.setUsername(user.getUsername());
@@ -45,11 +52,16 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public void deleteUser(Long id){
-     if (!userRepository.existsById(id)) {
+  public void deleteUser(Long id) {
+    if (!userRepository.existsById(id)) {
       throw new UserException("User not found with id: " + id);
     }
     userRepository.deleteById(id);
   }
-}
 
+  @Override
+  public User getUserFromJwt(String token) {
+    KeycloakUserDTO keycloakUserDTO = keycloakService.fetchUserProfileByJwt(token);
+    return userRepository.findByEmail(keycloakUserDTO.getEmail());
+  }
+}

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,13 +25,13 @@ public class UserController {
   private final UserService userService;
 
   @GetMapping
-  public ResponseEntity<List<User>> getUsers(){
+  public ResponseEntity<List<User>> getUsers() {
     List<User> users = userService.getUsers();
     return new ResponseEntity<>(users, HttpStatus.OK);
   }
 
   @GetMapping("/{userId}")
-  public ResponseEntity<User> getUserById(@PathVariable Long userId){
+  public ResponseEntity<User> getUserById(@PathVariable Long userId) {
     User user = userService.getUserById(userId);
     return new ResponseEntity<>(user, HttpStatus.OK);
   }
@@ -38,11 +39,18 @@ public class UserController {
   @PostMapping
   public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
     User createdUser = userService.createUser(user);
-    return new ResponseEntity<>(createdUser,HttpStatus.CREATED);
+    return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+  }
+
+  @GetMapping("/profiles")
+  public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization") String jwt) {
+    User user = userService.getUserFromJwt(jwt);
+    return new ResponseEntity<>(user, HttpStatus.CREATED);
   }
 
   @PutMapping("/{userId}")
-  public ResponseEntity<User> updateUser(@PathVariable("userId") Long userId, @RequestBody @Valid User user) {
+  public ResponseEntity<User> updateUser(
+      @PathVariable("userId") Long userId, @RequestBody @Valid User user) {
     user.setId(userId);
     User updatedUser = userService.updateUser(userId, user);
     return new ResponseEntity<>(updatedUser, HttpStatus.OK);
@@ -51,6 +59,6 @@ public class UserController {
   @DeleteMapping("/{userId}")
   public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
     userService.deleteUser(userId);
-    return new ResponseEntity<>("User deleted",HttpStatus.OK);
+    return new ResponseEntity<>("User deleted", HttpStatus.OK);
   }
 }

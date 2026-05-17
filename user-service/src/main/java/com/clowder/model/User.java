@@ -1,5 +1,7 @@
 package com.clowder.model;
 
+import com.clowder.dto.request.UserRole;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -41,12 +43,10 @@ public class User {
 
   private String phone;
 
-  @NotBlank(message = "Role is mandatory")
-  private String role;
+  @Column(nullable = false)
+  private UserRole role;
 
-  @CreationTimestamp
-  private LocalDateTime createdAt;
+  @CreationTimestamp private LocalDateTime createdAt;
 
-  @UpdateTimestamp
-  private LocalDateTime updatedAt;
+  @UpdateTimestamp private LocalDateTime updatedAt;
 }
