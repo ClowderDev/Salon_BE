@@ -6,6 +6,7 @@ import com.clowder.dto.response.PaymentLinkResponse;
 import com.clowder.enums.PaymentMethod;
 import com.clowder.model.PaymentOrder;
 import com.clowder.service.PaymentService;
+import com.clowder.service.client.UserClient;
 import com.razorpay.RazorpayException;
 import com.stripe.exception.StripeException;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,17 +27,21 @@ import org.springframework.web.bind.annotation.RestController;
 public class PaymentController {
 
   private final PaymentService paymentService;
+  private final UserClient userClient;
 
   @PostMapping("/create")
   public ResponseEntity<PaymentLinkResponse> createPaymentLink(
-      @RequestBody BookingDTO booking, @RequestParam PaymentMethod paymentMethod)
+      @RequestBody BookingDTO booking,
+      @RequestParam PaymentMethod paymentMethod,
+      @RequestHeader("Authorization") String jwt)
       throws StripeException, RazorpayException {
-    UserDTO user = new UserDTO();
-    user.setFullName("John Doe");
-    user.setEmail("jonh@gmail.com");
-    user.setId(1L);
+    UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
 
-    PaymentLinkResponse res = paymentService.createOrder(user, booking, paymentMethod);
+    if (userDTO == null) {
+      return ResponseEntity.notFound().build();
+    }
+
+    PaymentLinkResponse res = paymentService.createOrder(userDTO, booking, paymentMethod);
     return ResponseEntity.ok(res);
   }
 

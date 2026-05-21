@@ -6,14 +6,19 @@ import com.clowder.dto.request.BookingSlotDTO;
 import com.clowder.dto.request.SalonDTO;
 import com.clowder.dto.request.ServiceDTO;
 import com.clowder.dto.request.UserDTO;
+import com.clowder.dto.response.PaymentLinkResponse;
 import com.clowder.enums.BookingStatus;
+import com.clowder.enums.PaymentMethod;
 import com.clowder.mapper.BookingMapper;
 import com.clowder.model.Booking;
 import com.clowder.model.SalonReport;
 import com.clowder.service.BookingService;
+import com.clowder.service.client.PaymentClient;
+import com.clowder.service.client.SalonClient;
+import com.clowder.service.client.ServiceOfferingClient;
+import com.clowder.service.client.UserClient;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -24,6 +29,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,39 +40,46 @@ import org.springframework.web.bind.annotation.RestController;
 public class BookingController {
 
   private final BookingService bookingService;
+  private final SalonClient salonClient;
+  private final UserClient userClient;
+  private final ServiceOfferingClient serviceOfferingClient;
+  private final PaymentClient paymentClient;
 
   @PostMapping
-  public ResponseEntity<Booking> createBooking(
-      @RequestParam Long salonId, @RequestBody BookingRequest bookingRequest) throws Exception {
-    UserDTO userDTO = new UserDTO();
-    userDTO.setId(1L);
+  public ResponseEntity<PaymentLinkResponse> createBooking(
+      @RequestParam Long salonId,
+      @RequestParam PaymentMethod paymentMethod,
+      @RequestBody BookingRequest bookingRequest,
+      @RequestHeader("Authorization") String jwt)
+      throws Exception {
 
-    SalonDTO salon = new SalonDTO();
-    salon.setId(salonId);
-    salon.setOpeningTime(LocalTime.of(8, 0));      // 8:00 AM
-    salon.setClosingTime(LocalTime.of(22, 0));     // 10:00 PM
+    UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
 
-    Set<ServiceDTO> serviceDTOSet = new HashSet<>();
+    SalonDTO salon = salonClient.getSalonById(salonId).getBody();
 
-    ServiceDTO serviceDTO = new ServiceDTO();
-    serviceDTO.setId(1L);
-    serviceDTO.setPrice(399);
-    serviceDTO.setDuration(60);
-    serviceDTO.setName("Haircut");
-
-    serviceDTOSet.add(new ServiceDTO());
+    Set<ServiceDTO> serviceDTOSet =
+        Collections.singleton(
+            serviceOfferingClient.getServicesById(bookingRequest.getServiceIds()).getBody());
 
     Booking booking = bookingService.createBooking(bookingRequest, userDTO, salon, serviceDTOSet);
 
-    return ResponseEntity.ok(booking);
+    BookingDTO bookingDTO = BookingMapper.toDTO(booking);
+    PaymentLinkResponse res =
+        paymentClient.createPaymentLink(bookingDTO, paymentMethod, jwt).getBody();
+
+    return ResponseEntity.ok(res);
   }
 
   @GetMapping("/customer")
-  public ResponseEntity<Set<BookingDTO>> getBookingsByCustomer() {
-    UserDTO userDTO = new UserDTO();
-    userDTO.setId(1L);
+  public ResponseEntity<Set<BookingDTO>> getBookingsByCustomer(
+      @RequestHeader("Authorization") String jwt) {
+    UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
 
-    List<Booking> bookings = bookingService.getBookingsByCustomer(1L);
+    if (userDTO == null) {
+      return ResponseEntity.notFound().build();
+    }
+
+    List<Booking> bookings = bookingService.getBookingsByCustomer(userDTO.getId());
 
     return ResponseEntity.ok(getBookingDTOs(bookings));
   }
@@ -76,11 +89,11 @@ public class BookingController {
   }
 
   @GetMapping("/salon")
-  public ResponseEntity<Set<BookingDTO>> getBookingsBySalon() {
-    UserDTO userDTO = new UserDTO();
-    userDTO.setId(1L);
+  public ResponseEntity<Set<BookingDTO>> getBookingsBySalon(
+      @RequestHeader("Authorization") String jwt) {
+    SalonDTO salonDTO = (SalonDTO) salonClient.getSalonsByOwnerId(jwt).getBody();
 
-    List<Booking> bookings = bookingService.getBookingsBySalon(1L);
+    List<Booking> bookings = bookingService.getBookingsBySalon(salonDTO.getId());
 
     return ResponseEntity.ok(getBookingDTOs(bookings));
   }
@@ -122,9 +135,11 @@ public class BookingController {
   }
 
   @GetMapping("/report")
-  public ResponseEntity<SalonReport> getSalonReport() {
+  public ResponseEntity<SalonReport> getSalonReport(@RequestHeader("Authorization") String jwt) {
 
-    SalonReport report = bookingService.getSalonReport(1L);
+    SalonDTO salonDTO = (SalonDTO) salonClient.getSalonsByOwnerId(jwt).getBody();
+
+    SalonReport report = bookingService.getSalonReport(salonDTO.getId());
 
     return ResponseEntity.ok(report);
   }

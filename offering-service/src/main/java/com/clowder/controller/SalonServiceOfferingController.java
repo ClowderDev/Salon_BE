@@ -5,11 +5,14 @@ import com.clowder.dto.request.SalonDTO;
 import com.clowder.dto.request.ServiceDTO;
 import com.clowder.model.ServiceOffering;
 import com.clowder.service.ServiceOfferingService;
+import com.clowder.service.client.CategoryClient;
+import com.clowder.service.client.SalonClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,18 +22,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class SalonServiceOfferingController {
 
   private final ServiceOfferingService serviceOfferingService;
+  private final SalonClient salonClient;
+  private final CategoryClient categoryClient;
 
   @PostMapping()
-  public ResponseEntity<ServiceOffering> createServiceOffering(@RequestBody ServiceDTO serviceDTO) {
+  public ResponseEntity<ServiceOffering> createServiceOffering(
+      @RequestBody ServiceDTO serviceDTO, @RequestHeader("Authorization") String jwt) {
 
-    SalonDTO salon = new SalonDTO();
-    salon.setId(1L);
+    SalonDTO salonDTO = (SalonDTO) salonClient.getSalonsByOwnerId(jwt).getBody();
 
-    CategoryDTO category = new CategoryDTO();
-    category.setId(serviceDTO.getCategoryId());
+    CategoryDTO category =
+        categoryClient
+            .getCategoriesByIdAndSalonId(serviceDTO.getCategoryId(), salonDTO.getId())
+            .getBody();
 
     ServiceOffering serviceOffering =
-        serviceOfferingService.createService(salon, serviceDTO, category);
+        serviceOfferingService.createService(salonDTO, serviceDTO, category);
     return ResponseEntity.ok(serviceOffering);
   }
 

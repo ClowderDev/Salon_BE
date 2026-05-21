@@ -5,6 +5,7 @@ import com.clowder.dto.request.UserDTO;
 import com.clowder.mapper.SalonMapper;
 import com.clowder.model.Salon;
 import com.clowder.service.SalonService;
+import com.clowder.service.client.UserClient;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,11 +25,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class SalonController {
 
   private final SalonService salonService;
+  private final UserClient userClient;
 
   @PostMapping
-  public ResponseEntity<SalonDTO> createSalon(@RequestBody SalonDTO salon, UserDTO user) {
-    UserDTO userDTO = new UserDTO();
-    userDTO.setId(1L);
+  public ResponseEntity<SalonDTO> createSalon(
+      @RequestBody SalonDTO salon, @RequestHeader("Authorization") String jwt) {
+    UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
     Salon createdSalon = salonService.createSalon(salon, userDTO);
     SalonDTO dto = SalonMapper.mapSalonToDTO(createdSalon);
     return ResponseEntity.ok(dto);
@@ -35,11 +38,16 @@ public class SalonController {
 
   @PatchMapping("/{id}")
   public ResponseEntity<SalonDTO> updateSalon(
-      @RequestBody SalonDTO salon, UserDTO user, @PathVariable("id") Long salonId) {
+      @RequestBody SalonDTO salon,
+      @PathVariable("id") Long salonId,
+      @RequestHeader("Authorization") String jwt) {
     if (salon.getId() == null) {
       return ResponseEntity.badRequest().build();
     }
-    Salon updatedSalon = salonService.updateSalon(salon, user, salon.getId());
+
+    UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
+
+    Salon updatedSalon = salonService.updateSalon(salon, userDTO, salonId);
     SalonDTO dto = SalonMapper.mapSalonToDTO(updatedSalon);
     return ResponseEntity.ok(dto);
   }
@@ -59,9 +67,14 @@ public class SalonController {
   }
 
   @GetMapping("/owner")
-  public ResponseEntity<List<SalonDTO>> getSalonsByOwnerId() {
-    UserDTO userDTO = new UserDTO();
-    userDTO.setId(1L);
+  public ResponseEntity<List<SalonDTO>> getSalonsByOwnerId(
+      @RequestHeader("Authorization") String jwt) {
+    UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
+
+    if (userDTO == null) {
+      return ResponseEntity.badRequest().build();
+    }
+
     List<Salon> salons = salonService.getSalonsByOwnerId(userDTO.getId());
     List<SalonDTO> dtos = salons.stream().map(SalonMapper::mapSalonToDTO).toList();
     return ResponseEntity.ok(dtos);

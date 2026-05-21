@@ -13,4 +13,6 @@ public interface CategoryService {
   Category getCategoryById(Long categoryId);
 
   void deleteCategory(Long categoryId, Long salonId);
+
+  Category findByIdAndSalonId(Long id, Long salonId);
 }

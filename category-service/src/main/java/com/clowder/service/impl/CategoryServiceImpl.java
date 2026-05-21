@@ -51,4 +51,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
     categoryRepository.deleteById(categoryId);
   }
+
+  @Override
+  public Category findByIdAndSalonId(Long id, Long salonId) {
+    Category category = categoryRepository.findByIdAndSalonId(id, salonId);
+    if (category == null) {
+      throw new IllegalArgumentException("Category not found");
+    }
+    return category;
+  }
 }
