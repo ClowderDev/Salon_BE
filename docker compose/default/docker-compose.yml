@@ -220,6 +220,31 @@ services:
     networks:
       - clowderline
 
+  notification:
+    image: clowderline/salon-notification:v1
+    container_name: notification
+    ports:
+      - "8007:8007"
+    depends_on:
+      mysql-init:
+        condition: service_completed_successfully
+      eurekaserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: notification-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/notification_database
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "123456"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8006/actuator/health/readiness | grep UP || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - clowderline
+
 networks:
   clowderline:
     driver: bridge
