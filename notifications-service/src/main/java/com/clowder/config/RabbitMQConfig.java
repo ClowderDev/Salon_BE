@@ -22,11 +22,6 @@ public class RabbitMQConfig {
   }
 
   @Bean
-  public Queue bookingQueue() {
-    return new Queue("booking-queue");
-  }
-
-  @Bean
   public Queue notificationQueue() {
     return new Queue("notification-queue");
   }

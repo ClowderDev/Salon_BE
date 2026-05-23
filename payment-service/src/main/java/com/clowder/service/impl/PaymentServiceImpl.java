@@ -5,6 +5,8 @@ import com.clowder.dto.request.UserDTO;
 import com.clowder.dto.response.PaymentLinkResponse;
 import com.clowder.enums.PaymentMethod;
 import com.clowder.enums.PaymentOrderStatus;
+import com.clowder.message.BookingEventProducer;
+import com.clowder.message.NotificationEventProducer;
 import com.clowder.model.PaymentOrder;
 import com.clowder.repository.PaymentRepository;
 import com.clowder.service.PaymentService;
@@ -28,6 +30,8 @@ import org.springframework.stereotype.Service;
 public class PaymentServiceImpl implements PaymentService {
 
   private final PaymentRepository paymentRepository;
+  private final BookingEventProducer bookingEventProducer;
+  private final NotificationEventProducer notificationEventProducer;
 
   @Value("${stripe.api.key}")
   private String stripeSecretKey;
@@ -161,6 +165,10 @@ public class PaymentServiceImpl implements PaymentService {
       String status = payment.get("status");
 
       if (status.equals("captured")) {
+
+        bookingEventProducer.sentBookingUpdateEvent(paymentOrder);
+        notificationEventProducer.sentNotification(
+            paymentOrder.getBookingId(), paymentOrder.getUserId(), paymentOrder.getSalonId());
         paymentOrder.setStatus(PaymentOrderStatus.SUCCEEDED);
         paymentRepository.save(paymentOrder);
         return true;

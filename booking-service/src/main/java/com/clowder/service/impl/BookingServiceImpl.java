@@ -6,6 +6,7 @@ import com.clowder.dto.request.ServiceDTO;
 import com.clowder.dto.request.UserDTO;
 import com.clowder.enums.BookingStatus;
 import com.clowder.model.Booking;
+import com.clowder.model.PaymentOrder;
 import com.clowder.model.SalonReport;
 import com.clowder.repository.BookingRepository;
 import com.clowder.service.BookingService;
@@ -158,5 +159,13 @@ public class BookingServiceImpl implements BookingService {
     salonReport.setTotalEarnings(totalEarnings);
     salonReport.setTotalRefund(totalRefund);
     return salonReport;
+  }
+
+  @Override
+  public Booking bookingSuccess(PaymentOrder paymentOrder) {
+
+    Booking existedBooking = getBookingById(paymentOrder.getBookingId());
+    existedBooking.setStatus(BookingStatus.CONFIRMED);
+    return bookingRepository.save(existedBooking);
   }
 }

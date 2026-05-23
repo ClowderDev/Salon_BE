@@ -10,6 +10,9 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.ReactiveJwtAuthenticationConverterAdapter;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.reactive.CorsConfigurationSource;
+import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 import reactor.core.publisher.Mono;
 
 @Configuration
@@ -45,8 +48,23 @@ public class SecurityConfig {
                 oAuth2ResourceServer.jwt(
                     jwtSpec -> jwtSpec.jwtAuthenticationConverter(grantAuthoritiesExtractor())));
 
-    http.csrf(ServerHttpSecurity.CsrfSpec::disable);
+    http.csrf(ServerHttpSecurity.CsrfSpec::disable)
+        .cors(cors -> cors.configurationSource(corConfigurationSource()));
     return http.build();
+  }
+
+  private CorsConfigurationSource corConfigurationSource() {
+
+    CorsConfiguration configuration = new CorsConfiguration();
+    configuration.addAllowedOrigin("*");
+    configuration.addAllowedHeader("*");
+    configuration.addAllowedMethod("*");
+    configuration.setAllowCredentials(true);
+
+    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+
+    return source;
   }
 
   private Converter<Jwt, ? extends Mono<? extends AbstractAuthenticationToken>>
