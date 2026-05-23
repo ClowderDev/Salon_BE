@@ -30,6 +30,8 @@ services:
       CREATE DATABASE IF NOT EXISTS offering_database;
       CREATE DATABASE IF NOT EXISTS booking_database;
       CREATE DATABASE IF NOT EXISTS payment_database;
+      CREATE DATABASE IF NOT EXISTS notification_database;
+      CREATE DATABASE IF NOT EXISTS review_database;
       '"
     networks:
       - clowderline
@@ -233,6 +235,31 @@ services:
     environment:
       SPRING_APPLICATION_NAME: notification-service
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/notification_database
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: "123456"
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
+    healthcheck:
+      test: [ "CMD-SHELL", "curl --fail --silent http://localhost:8006/actuator/health/readiness | grep UP || exit 1" ]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - clowderline
+
+  review:
+    image: clowderline/salon-review:v1
+    container_name: notification
+    ports:
+      - "8008:8008"
+    depends_on:
+      mysql-init:
+        condition: service_completed_successfully
+      eurekaserver:
+        condition: service_healthy
+    environment:
+      SPRING_APPLICATION_NAME: review-service
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/review_database
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: "123456"
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
