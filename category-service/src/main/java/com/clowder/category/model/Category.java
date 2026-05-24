@@ -1,10 +1,8 @@
-package com.clowder.booking.model;
+package com.clowder.category.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,11 +15,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Category {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+@Table(name = "categories")
+public class Category extends BaseEntity {
 
   @Column(nullable = false)
   private String name;

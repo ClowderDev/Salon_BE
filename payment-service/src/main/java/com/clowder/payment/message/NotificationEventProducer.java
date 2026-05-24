@@ -1,6 +1,6 @@
-package com.clowder.booking.message;
+package com.clowder.payment.message;
 
-import com.clowder.booking.dto.request.NotificationDTO;
+import com.clowder.payment.dto.request.NotificationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class NotificationEventProducer {
   private final RabbitTemplate rabbitTemplate;
 
-  public void sentNotification(Long bookingId, Long userId, Long salonId) {
+  public void sendNotification(Long bookingId, Long userId, Long salonId) {
     NotificationDTO notificationDTO = new NotificationDTO();
     notificationDTO.setBookingId(bookingId);
     notificationDTO.setUserId(userId);
@@ -18,6 +18,6 @@ public class NotificationEventProducer {
     notificationDTO.setDescription("Your payment was successful for booking ID: " + bookingId);
     notificationDTO.setType("BOOKING");
 
-    rabbitTemplate.convertAndSend("notification-event", notificationDTO);
+    rabbitTemplate.convertAndSend("notification-queue", notificationDTO);
   }
 }

@@ -1,4 +1,4 @@
-package com.clowder.booking.config;
+package com.clowder.notification.config;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -9,10 +9,12 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitMQConfig {
+  @Bean
   public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
     return new Jackson2JsonMessageConverter();
   }
 
+  @Bean
   public RabbitTemplate rabbitTemplate(
       ConnectionFactory connectionFactory,
       Jackson2JsonMessageConverter jackson2JsonMessageConverter) {

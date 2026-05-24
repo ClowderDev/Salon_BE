@@ -1,6 +1,6 @@
-package com.clowder.booking.service.client;
+package com.clowder.payment.service.client;
 
-import com.clowder.booking.dto.request.SalonDTO;
+import com.clowder.payment.dto.request.SalonDTO;
 import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;

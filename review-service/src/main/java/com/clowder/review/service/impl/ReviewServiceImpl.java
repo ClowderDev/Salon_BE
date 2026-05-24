@@ -1,11 +1,11 @@
-package com.clowder.booking.service.impl;
+package com.clowder.review.service.impl;
 
-import com.clowder.booking.dto.request.ReviewRequest;
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.dto.request.UserDTO;
-import com.clowder.booking.model.Review;
-import com.clowder.booking.repository.ReviewRepository;
-import com.clowder.booking.service.ReviewService;
+import com.clowder.review.dto.request.ReviewRequest;
+import com.clowder.review.dto.request.SalonDTO;
+import com.clowder.review.dto.request.UserDTO;
+import com.clowder.review.model.Review;
+import com.clowder.review.repository.ReviewRepository;
+import com.clowder.review.service.ReviewService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

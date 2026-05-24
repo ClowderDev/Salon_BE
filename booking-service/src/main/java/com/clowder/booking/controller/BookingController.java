@@ -1,17 +1,17 @@
 package com.clowder.booking.controller;
 
-import com.clowder.booking.dto.request.BookingDTO;
 import com.clowder.booking.dto.request.BookingRequest;
 import com.clowder.booking.dto.request.BookingSlotDTO;
 import com.clowder.booking.dto.request.SalonDTO;
 import com.clowder.booking.dto.request.ServiceDTO;
 import com.clowder.booking.dto.request.UserDTO;
+import com.clowder.booking.dto.response.BookingDTO;
 import com.clowder.booking.dto.response.PaymentLinkResponse;
+import com.clowder.booking.dto.response.SalonReport;
 import com.clowder.booking.enums.BookingStatus;
 import com.clowder.booking.enums.PaymentMethod;
 import com.clowder.booking.mapper.BookingMapper;
 import com.clowder.booking.model.Booking;
-import com.clowder.booking.model.SalonReport;
 import com.clowder.booking.service.BookingService;
 import com.clowder.booking.service.client.PaymentClient;
 import com.clowder.booking.service.client.SalonClient;
@@ -63,7 +63,7 @@ public class BookingController {
 
     Booking booking = bookingService.createBooking(bookingRequest, userDTO, salon, serviceDTOSet);
 
-    BookingDTO bookingDTO = BookingMapper.toDTO(booking);
+    BookingDTO bookingDTO = BookingMapper.toDto(booking);
     PaymentLinkResponse res =
         paymentClient.createPaymentLink(bookingDTO, paymentMethod, jwt).getBody();
 
@@ -85,13 +85,17 @@ public class BookingController {
   }
 
   private Set<BookingDTO> getBookingDTOs(List<Booking> bookings) {
-    return bookings.stream().map(BookingMapper::toDTO).collect(Collectors.toSet());
+    return bookings.stream().map(BookingMapper::toDto).collect(Collectors.toSet());
   }
 
   @GetMapping("/salon")
   public ResponseEntity<Set<BookingDTO>> getBookingsBySalon(
       @RequestHeader("Authorization") String jwt) {
-    SalonDTO salonDTO = (SalonDTO) salonClient.getSalonsByOwnerId(jwt).getBody();
+    List<SalonDTO> salons = salonClient.getSalonsByOwnerId(jwt).getBody();
+    if (salons == null || salons.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+    SalonDTO salonDTO = salons.get(0);
 
     List<Booking> bookings = bookingService.getBookingsBySalon(salonDTO.getId());
 
@@ -103,7 +107,7 @@ public class BookingController {
 
     Booking booking = bookingService.getBookingById(bookingId);
 
-    return ResponseEntity.ok(BookingMapper.toDTO(booking));
+    return ResponseEntity.ok(BookingMapper.toDto(booking));
   }
 
   @PutMapping("/{bookingId}/status")
@@ -112,7 +116,7 @@ public class BookingController {
 
     Booking booking = bookingService.updateBooking(bookingId, bookingStatus);
 
-    return ResponseEntity.ok(BookingMapper.toDTO(booking));
+    return ResponseEntity.ok(BookingMapper.toDto(booking));
   }
 
   @GetMapping("/slots/salon/{salonId}/date/{date}")
@@ -137,7 +141,11 @@ public class BookingController {
   @GetMapping("/report")
   public ResponseEntity<SalonReport> getSalonReport(@RequestHeader("Authorization") String jwt) {
 
-    SalonDTO salonDTO = (SalonDTO) salonClient.getSalonsByOwnerId(jwt).getBody();
+    List<SalonDTO> salons = salonClient.getSalonsByOwnerId(jwt).getBody();
+    if (salons == null || salons.isEmpty()) {
+      return ResponseEntity.notFound().build();
+    }
+    SalonDTO salonDTO = salons.get(0);
 
     SalonReport report = bookingService.getSalonReport(salonDTO.getId());
 

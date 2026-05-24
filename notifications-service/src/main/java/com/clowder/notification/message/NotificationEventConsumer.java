@@ -1,19 +1,19 @@
-package com.clowder.booking.message;
+package com.clowder.notification.message;
 
-import com.clowder.booking.model.Notification;
-import com.clowder.booking.service.NotificationService;
+import com.clowder.notification.model.Notification;
+import com.clowder.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 @RequiredArgsConstructor
 public class NotificationEventConsumer {
 
   private final NotificationService notificationService;
 
   @RabbitListener(queues = "notification-queue")
-  public void sentNotificationEventConsumer(Notification notification) {
+  public void handleNotificationEvent(Notification notification) {
     notificationService.createNotification(notification);
   }
 }

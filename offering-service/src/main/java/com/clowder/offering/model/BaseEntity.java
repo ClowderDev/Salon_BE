@@ -1,4 +1,4 @@
-package com.clowder.notification.model;
+package com.clowder.offering.model;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

@@ -1,8 +1,6 @@
-package com.clowder.user.dto.request;
+package com.clowder.user.enums;
 
-import lombok.Getter;
 
-@Getter
 public enum UserRole {
   CUSTOMER,
   ADMIN,

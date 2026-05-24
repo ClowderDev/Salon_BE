@@ -1,13 +1,13 @@
 package com.clowder.booking.service.impl;
 
 import com.clowder.booking.dto.request.BookingRequest;
+import com.clowder.booking.dto.request.PaymentOrder;
 import com.clowder.booking.dto.request.SalonDTO;
 import com.clowder.booking.dto.request.ServiceDTO;
 import com.clowder.booking.dto.request.UserDTO;
+import com.clowder.booking.dto.response.SalonReport;
 import com.clowder.booking.enums.BookingStatus;
 import com.clowder.booking.model.Booking;
-import com.clowder.booking.model.PaymentOrder;
-import com.clowder.booking.model.SalonReport;
 import com.clowder.booking.repository.BookingRepository;
 import com.clowder.booking.service.BookingService;
 import java.time.LocalDate;

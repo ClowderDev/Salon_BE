@@ -1,4 +1,4 @@
-package com.clowder.booking.dto.request;
+package com.clowder.booking.dto.response;
 
 import com.clowder.booking.enums.BookingStatus;
 import java.time.LocalDateTime;
@@ -24,4 +24,6 @@ public class BookingDTO {
   private Set<Long> serviceIds;
 
   private BookingStatus status = BookingStatus.PENDING;
+
+  private int totalPrice;
 }

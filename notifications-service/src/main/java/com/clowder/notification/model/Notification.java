@@ -1,10 +1,7 @@
-package com.clowder.booking.model;
+package com.clowder.notification.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.time.LocalDateTime;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -17,11 +14,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Notification {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+@Table(name = "notifications")
+public class Notification extends BaseEntity {
 
   private String type;
 
@@ -34,6 +28,4 @@ public class Notification {
   private Long bookingId;
 
   private Long salonId;
-
-  private LocalDateTime createdAt = LocalDateTime.now();
 }

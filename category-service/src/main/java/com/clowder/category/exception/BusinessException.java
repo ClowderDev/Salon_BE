@@ -1,4 +1,4 @@
-package com.clowder.booking.exception;
+package com.clowder.category.exception;
 
 public class BusinessException extends RuntimeException {
   public BusinessException(String message) {

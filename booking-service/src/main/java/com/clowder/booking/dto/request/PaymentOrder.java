@@ -1,4 +1,4 @@
-package com.clowder.booking.model;
+package com.clowder.booking.dto.request;
 
 import com.clowder.booking.enums.PaymentMethod;
 import com.clowder.booking.enums.PaymentOrderStatus;

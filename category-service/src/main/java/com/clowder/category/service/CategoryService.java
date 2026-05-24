@@ -1,7 +1,7 @@
-package com.clowder.booking.service;
+package com.clowder.category.service;
 
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.model.Category;
+import com.clowder.category.dto.request.SalonDTO;
+import com.clowder.category.model.Category;
 import java.util.Set;
 
 public interface CategoryService {

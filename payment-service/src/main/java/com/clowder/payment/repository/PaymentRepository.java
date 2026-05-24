@@ -1,6 +1,6 @@
-package com.clowder.booking.repository;
+package com.clowder.payment.repository;
 
-import com.clowder.booking.model.PaymentOrder;
+import com.clowder.payment.model.PaymentOrder;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.clowder.booking.model;
+package com.clowder.category.model;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

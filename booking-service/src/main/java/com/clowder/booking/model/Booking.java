@@ -2,9 +2,7 @@ package com.clowder.booking.model;
 
 import com.clowder.booking.enums.BookingStatus;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -19,11 +17,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Booking {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+@Table(name = "bookings")
+public class Booking extends BaseEntity {
 
   private Long salonId;
 

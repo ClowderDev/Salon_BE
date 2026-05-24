@@ -1,10 +1,10 @@
-package com.clowder.booking.service;
+package com.clowder.payment.service;
 
-import com.clowder.booking.dto.request.BookingDTO;
-import com.clowder.booking.dto.request.UserDTO;
-import com.clowder.booking.dto.response.PaymentLinkResponse;
-import com.clowder.booking.enums.PaymentMethod;
-import com.clowder.booking.model.PaymentOrder;
+import com.clowder.payment.dto.request.BookingDTO;
+import com.clowder.payment.dto.request.UserDTO;
+import com.clowder.payment.dto.response.PaymentLinkResponse;
+import com.clowder.payment.enums.PaymentMethod;
+import com.clowder.payment.model.PaymentOrder;
 import com.razorpay.PaymentLink;
 import com.razorpay.RazorpayException;
 import com.stripe.exception.StripeException;

@@ -1,7 +1,7 @@
-package com.clowder.booking.controller;
+package com.clowder.user.controller;
 
-import com.clowder.booking.model.User;
-import com.clowder.booking.service.UserService;
+import com.clowder.user.model.User;
+import com.clowder.user.service.UserService;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -27,25 +27,25 @@ public class UserController {
   @GetMapping
   public ResponseEntity<List<User>> getUsers() {
     List<User> users = userService.getUsers();
-    return new ResponseEntity<>(users, HttpStatus.OK);
+    return ResponseEntity.ok(users);
   }
 
   @GetMapping("/{userId}")
   public ResponseEntity<User> getUserById(@PathVariable Long userId) {
     User user = userService.getUserById(userId);
-    return new ResponseEntity<>(user, HttpStatus.OK);
+    return ResponseEntity.ok(user);
   }
 
   @PostMapping
   public ResponseEntity<User> createUser(@RequestBody @Valid User user) {
     User createdUser = userService.createUser(user);
-    return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
+    return ResponseEntity.status(HttpStatus.CREATED).body(createdUser);
   }
 
   @GetMapping("/profiles")
   public ResponseEntity<User> getUserProfile(@RequestHeader("Authorization") String jwt) {
     User user = userService.getUserFromJwt(jwt);
-    return new ResponseEntity<>(user, HttpStatus.CREATED);
+    return ResponseEntity.ok(user);
   }
 
   @PutMapping("/{userId}")
@@ -53,12 +53,12 @@ public class UserController {
       @PathVariable("userId") Long userId, @RequestBody @Valid User user) {
     user.setId(userId);
     User updatedUser = userService.updateUser(userId, user);
-    return new ResponseEntity<>(updatedUser, HttpStatus.OK);
+    return ResponseEntity.ok(updatedUser);
   }
 
   @DeleteMapping("/{userId}")
   public ResponseEntity<String> deleteUser(@PathVariable Long userId) {
     userService.deleteUser(userId);
-    return new ResponseEntity<>("User deleted", HttpStatus.OK);
+    return ResponseEntity.ok("User deleted");
   }
 }

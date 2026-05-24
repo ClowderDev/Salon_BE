@@ -1,7 +1,7 @@
-package com.clowder.booking.service;
+package com.clowder.notification.service;
 
-import com.clowder.booking.dto.request.NotificationDTO;
-import com.clowder.booking.model.Notification;
+import com.clowder.notification.dto.request.NotificationDTO;
+import com.clowder.notification.model.Notification;
 import java.util.List;
 
 public interface NotificationService {

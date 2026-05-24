@@ -1,11 +1,11 @@
-package com.clowder.booking.service.impl;
+package com.clowder.offering.service.impl;
 
-import com.clowder.booking.dto.request.CategoryDTO;
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.dto.request.ServiceDTO;
-import com.clowder.booking.model.ServiceOffering;
-import com.clowder.booking.repository.ServiceOfferingRepository;
-import com.clowder.booking.service.ServiceOfferingService;
+import com.clowder.offering.dto.request.CategoryDTO;
+import com.clowder.offering.dto.request.SalonDTO;
+import com.clowder.offering.dto.request.ServiceDTO;
+import com.clowder.offering.model.ServiceOffering;
+import com.clowder.offering.repository.ServiceOfferingRepository;
+import com.clowder.offering.service.ServiceOfferingService;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;

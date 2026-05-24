@@ -1,9 +1,11 @@
-package com.clowder.booking.controller;
+package com.clowder.category.controller;
 
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.model.Category;
-import com.clowder.booking.service.CategoryService;
-import com.clowder.booking.service.client.SalonClient;
+import com.clowder.category.dto.request.SalonDTO;
+import com.clowder.category.exception.ResourceNotFoundException;
+import com.clowder.category.model.Category;
+import com.clowder.category.service.CategoryService;
+import com.clowder.category.service.client.SalonClient;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,7 +29,11 @@ public class SalonCategoryController {
   public ResponseEntity<Category> createCategory(
       @RequestBody Category category, @RequestHeader("Authorization") String jwt) {
 
-    SalonDTO salonDTO = (SalonDTO) salonClient.getSalonsByOwnerId(jwt).getBody();
+    List<SalonDTO> salons = salonClient.getSalonsByOwnerId(jwt).getBody();
+    if (salons == null || salons.isEmpty()) {
+      throw new ResourceNotFoundException("No salon found for this owner");
+    }
+    SalonDTO salonDTO = salons.get(0);
 
     Category savedCategory = categoryService.createCategory(category, salonDTO);
 
@@ -38,7 +44,11 @@ public class SalonCategoryController {
   public ResponseEntity<Void> deleteCategory(
       @PathVariable Long categoryId, @RequestHeader("Authorization") String jwt) {
 
-    SalonDTO salonDTO = (SalonDTO) salonClient.getSalonsByOwnerId(jwt).getBody();
+    List<SalonDTO> salons = salonClient.getSalonsByOwnerId(jwt).getBody();
+    if (salons == null || salons.isEmpty()) {
+      throw new ResourceNotFoundException("No salon found for this owner");
+    }
+    SalonDTO salonDTO = salons.get(0);
     categoryService.deleteCategory(categoryId, salonDTO.getId());
     return ResponseEntity.ok().build();
   }

@@ -1,6 +1,6 @@
-package com.clowder.booking.repository;
+package com.clowder.category.repository;
 
-import com.clowder.booking.model.Category;
+import com.clowder.category.model.Category;
 import java.util.Set;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

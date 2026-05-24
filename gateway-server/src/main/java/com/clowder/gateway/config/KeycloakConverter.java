@@ -1,4 +1,4 @@
-package com.clowder.booking.config;
+package com.clowder.gateway.config;
 
 import java.util.ArrayList;
 import java.util.Collection;

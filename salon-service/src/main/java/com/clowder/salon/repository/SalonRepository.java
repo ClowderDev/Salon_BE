@@ -1,6 +1,6 @@
-package com.clowder.booking.repository;
+package com.clowder.salon.repository;
 
-import com.clowder.booking.model.Salon;
+import com.clowder.salon.model.Salon;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

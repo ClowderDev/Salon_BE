@@ -1,7 +1,7 @@
-package com.clowder.booking.controller;
+package com.clowder.offering.controller;
 
-import com.clowder.booking.model.ServiceOffering;
-import com.clowder.booking.service.ServiceOfferingService;
+import com.clowder.offering.model.ServiceOffering;
+import com.clowder.offering.service.ServiceOfferingService;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

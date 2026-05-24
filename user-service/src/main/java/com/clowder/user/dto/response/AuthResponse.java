@@ -1,6 +1,6 @@
-package com.clowder.booking.dto.response;
+package com.clowder.user.dto.response;
 
-import com.clowder.booking.dto.request.UserRole;
+import com.clowder.user.enums.UserRole;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;

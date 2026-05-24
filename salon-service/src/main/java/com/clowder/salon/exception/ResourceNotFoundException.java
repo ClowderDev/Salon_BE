@@ -1,4 +1,4 @@
-package com.clowder.booking.exception;
+package com.clowder.salon.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
   public ResourceNotFoundException(String message) {

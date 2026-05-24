@@ -1,4 +1,4 @@
-package com.clowder.booking.dto.request;
+package com.clowder.review.dto.request;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

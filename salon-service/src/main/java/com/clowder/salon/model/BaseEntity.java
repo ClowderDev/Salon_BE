@@ -1,4 +1,4 @@
-package com.clowder.review.model;
+package com.clowder.salon.model;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

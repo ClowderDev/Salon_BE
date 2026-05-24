@@ -1,12 +1,12 @@
 package com.clowder.booking.message;
 
-import com.clowder.booking.model.PaymentOrder;
+import com.clowder.booking.dto.request.PaymentOrder;
 import com.clowder.booking.service.BookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
-@Configuration
+@Component
 @RequiredArgsConstructor
 public class BookingEventConsumer {
 

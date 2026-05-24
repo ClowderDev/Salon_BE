@@ -1,6 +1,6 @@
 package com.clowder.booking.service.client;
 
-import com.clowder.booking.dto.request.BookingDTO;
+import com.clowder.booking.dto.response.BookingDTO;
 import com.clowder.booking.dto.response.PaymentLinkResponse;
 import com.clowder.booking.enums.PaymentMethod;
 import org.springframework.cloud.openfeign.FeignClient;

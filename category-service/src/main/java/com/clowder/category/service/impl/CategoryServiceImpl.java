@@ -1,9 +1,9 @@
-package com.clowder.booking.service.impl;
+package com.clowder.category.service.impl;
 
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.model.Category;
-import com.clowder.booking.repository.CategoryRepository;
-import com.clowder.booking.service.CategoryService;
+import com.clowder.category.dto.request.SalonDTO;
+import com.clowder.category.model.Category;
+import com.clowder.category.repository.CategoryRepository;
+import com.clowder.category.service.CategoryService;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

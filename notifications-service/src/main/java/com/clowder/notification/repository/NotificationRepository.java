@@ -1,6 +1,6 @@
-package com.clowder.booking.repository;
+package com.clowder.notification.repository;
 
-import com.clowder.booking.model.Notification;
+import com.clowder.notification.model.Notification;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

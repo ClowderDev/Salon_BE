@@ -1,8 +1,8 @@
-package com.clowder.booking.service;
+package com.clowder.salon.service;
 
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.dto.request.UserDTO;
-import com.clowder.booking.model.Salon;
+import com.clowder.salon.dto.request.SalonDTO;
+import com.clowder.salon.dto.request.UserDTO;
+import com.clowder.salon.model.Salon;
 import java.util.List;
 
 public interface SalonService {

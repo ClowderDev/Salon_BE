@@ -1,15 +1,15 @@
-package com.clowder.booking.service.impl;
+package com.clowder.payment.service.impl;
 
-import com.clowder.booking.dto.request.BookingDTO;
-import com.clowder.booking.dto.request.UserDTO;
-import com.clowder.booking.dto.response.PaymentLinkResponse;
-import com.clowder.booking.enums.PaymentMethod;
-import com.clowder.booking.enums.PaymentOrderStatus;
-import com.clowder.booking.message.BookingEventProducer;
-import com.clowder.booking.message.NotificationEventProducer;
-import com.clowder.booking.model.PaymentOrder;
-import com.clowder.booking.repository.PaymentRepository;
-import com.clowder.booking.service.PaymentService;
+import com.clowder.payment.dto.request.BookingDTO;
+import com.clowder.payment.dto.request.UserDTO;
+import com.clowder.payment.dto.response.PaymentLinkResponse;
+import com.clowder.payment.enums.PaymentMethod;
+import com.clowder.payment.enums.PaymentOrderStatus;
+import com.clowder.payment.message.BookingEventProducer;
+import com.clowder.payment.message.NotificationEventProducer;
+import com.clowder.payment.model.PaymentOrder;
+import com.clowder.payment.repository.PaymentRepository;
+import com.clowder.payment.service.PaymentService;
 import com.razorpay.Payment;
 import com.razorpay.PaymentLink;
 import com.razorpay.RazorpayClient;
@@ -66,14 +66,14 @@ public class PaymentServiceImpl implements PaymentService {
       String paymentUrl = payment.get("short_url");
       String paymentUrlId = payment.get("id");
 
-      paymentLinkResponse.setPayment_link_url(paymentUrl);
-      paymentLinkResponse.setGetPayment_link_id(paymentUrlId);
+      paymentLinkResponse.setPaymentLinkUrl(paymentUrl);
+      paymentLinkResponse.setPaymentLinkId(paymentUrlId);
       savedOrder.setPaymentLinkId(paymentUrlId);
 
       paymentRepository.save(savedOrder);
     } else {
       String paymentUrl = createStripePaymentLink(user, savedOrder.getAmount(), savedOrder.getId());
-      paymentLinkResponse.setPayment_link_url(paymentUrl);
+      paymentLinkResponse.setPaymentLinkUrl(paymentUrl);
     }
     return paymentLinkResponse;
   }
@@ -166,8 +166,8 @@ public class PaymentServiceImpl implements PaymentService {
 
       if (status.equals("captured")) {
 
-        bookingEventProducer.sentBookingUpdateEvent(paymentOrder);
-        notificationEventProducer.sentNotification(
+        bookingEventProducer.sendBookingUpdateEvent(paymentOrder);
+        notificationEventProducer.sendNotification(
             paymentOrder.getBookingId(), paymentOrder.getUserId(), paymentOrder.getSalonId());
         paymentOrder.setStatus(PaymentOrderStatus.SUCCEEDED);
         paymentRepository.save(paymentOrder);

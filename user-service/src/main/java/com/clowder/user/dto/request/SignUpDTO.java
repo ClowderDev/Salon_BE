@@ -1,5 +1,6 @@
-package com.clowder.booking.dto.request;
+package com.clowder.user.dto.request;
 
+import com.clowder.user.enums.UserRole;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

@@ -1,12 +1,12 @@
-package com.clowder.booking.service.impl;
+package com.clowder.notification.service.impl;
 
-import com.clowder.booking.dto.request.BookingDTO;
-import com.clowder.booking.dto.request.NotificationDTO;
-import com.clowder.booking.mapper.NotificationMapper;
-import com.clowder.booking.model.Notification;
-import com.clowder.booking.repository.NotificationRepository;
-import com.clowder.booking.service.NotificationService;
-import com.clowder.booking.service.client.BookingClient;
+import com.clowder.notification.dto.request.BookingDTO;
+import com.clowder.notification.dto.request.NotificationDTO;
+import com.clowder.notification.mapper.NotificationMapper;
+import com.clowder.notification.model.Notification;
+import com.clowder.notification.repository.NotificationRepository;
+import com.clowder.notification.service.NotificationService;
+import com.clowder.notification.service.client.BookingClient;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class NotificationServiceImpl implements NotificationService {
     BookingDTO bookingDTO =
         bookingClient.getBookingsById(savedNotification.getBookingId()).getBody();
 
-    NotificationDTO notificationDTO1 = NotificationMapper.toDTO(savedNotification, bookingDTO);
+    NotificationDTO notificationDTO1 = NotificationMapper.toDto(savedNotification, bookingDTO);
     return notificationDTO1;
   }
 

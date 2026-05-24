@@ -1,11 +1,11 @@
-package com.clowder.booking.controller;
+package com.clowder.salon.controller;
 
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.dto.request.UserDTO;
-import com.clowder.booking.mapper.SalonMapper;
-import com.clowder.booking.model.Salon;
-import com.clowder.booking.service.SalonService;
-import com.clowder.booking.service.client.UserClient;
+import com.clowder.salon.dto.request.SalonDTO;
+import com.clowder.salon.dto.request.UserDTO;
+import com.clowder.salon.mapper.SalonMapper;
+import com.clowder.salon.model.Salon;
+import com.clowder.salon.service.SalonService;
+import com.clowder.salon.service.client.UserClient;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +32,7 @@ public class SalonController {
       @RequestBody SalonDTO salon, @RequestHeader("Authorization") String jwt) {
     UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
     Salon createdSalon = salonService.createSalon(salon, userDTO);
-    SalonDTO dto = SalonMapper.mapSalonToDTO(createdSalon);
+    SalonDTO dto = SalonMapper.toDto(createdSalon);
     return ResponseEntity.ok(dto);
   }
 
@@ -48,21 +48,21 @@ public class SalonController {
     UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
 
     Salon updatedSalon = salonService.updateSalon(salon, userDTO, salonId);
-    SalonDTO dto = SalonMapper.mapSalonToDTO(updatedSalon);
+    SalonDTO dto = SalonMapper.toDto(updatedSalon);
     return ResponseEntity.ok(dto);
   }
 
   @GetMapping
   public ResponseEntity<List<SalonDTO>> getAllSalons(UserDTO user) {
     List<Salon> salons = salonService.getSalons();
-    List<SalonDTO> dtos = salons.stream().map(SalonMapper::mapSalonToDTO).toList();
+    List<SalonDTO> dtos = salons.stream().map(SalonMapper::toDto).toList();
     return ResponseEntity.ok(dtos);
   }
 
   @GetMapping("/{salonId}")
   public ResponseEntity<SalonDTO> getSalonById(@PathVariable Long salonId) {
     Salon salon = salonService.getSalonById(salonId);
-    SalonDTO dto = SalonMapper.mapSalonToDTO(salon);
+    SalonDTO dto = SalonMapper.toDto(salon);
     return ResponseEntity.ok(dto);
   }
 
@@ -76,14 +76,14 @@ public class SalonController {
     }
 
     List<Salon> salons = salonService.getSalonsByOwnerId(userDTO.getId());
-    List<SalonDTO> dtos = salons.stream().map(SalonMapper::mapSalonToDTO).toList();
+    List<SalonDTO> dtos = salons.stream().map(SalonMapper::toDto).toList();
     return ResponseEntity.ok(dtos);
   }
 
   @GetMapping("/search")
   public ResponseEntity<List<SalonDTO>> searchSalons(@RequestParam("city") String city) {
     List<SalonDTO> salons =
-        salonService.getSalonsByCity(city).stream().map(SalonMapper::mapSalonToDTO).toList();
+        salonService.getSalonsByCity(city).stream().map(SalonMapper::toDto).toList();
     return ResponseEntity.ok(salons);
   }
 }

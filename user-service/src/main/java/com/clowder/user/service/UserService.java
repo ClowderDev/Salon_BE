@@ -1,6 +1,6 @@
-package com.clowder.booking.service;
+package com.clowder.user.service;
 
-import com.clowder.booking.model.User;
+import com.clowder.user.model.User;
 import java.util.List;
 
 public interface UserService {

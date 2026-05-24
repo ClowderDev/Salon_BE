@@ -1,11 +1,11 @@
-package com.clowder.booking.mapper;
+package com.clowder.salon.mapper;
 
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.model.Salon;
+import com.clowder.salon.dto.request.SalonDTO;
+import com.clowder.salon.model.Salon;
 
 public class SalonMapper {
 
-  public static SalonDTO mapSalonToDTO(Salon salon) {
+  public static SalonDTO toDto(Salon salon) {
     SalonDTO dto = new SalonDTO();
     dto.setId(salon.getId());
     dto.setName(salon.getName());

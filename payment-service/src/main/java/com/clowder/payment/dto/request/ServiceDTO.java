@@ -1,4 +1,4 @@
-package com.clowder.booking.dto.request;
+package com.clowder.payment.dto.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

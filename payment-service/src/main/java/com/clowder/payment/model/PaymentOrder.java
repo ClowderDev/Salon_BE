@@ -1,12 +1,10 @@
-package com.clowder.booking.model;
+package com.clowder.payment.model;
 
-import com.clowder.booking.enums.PaymentMethod;
-import com.clowder.booking.enums.PaymentOrderStatus;
+import com.clowder.payment.enums.PaymentMethod;
+import com.clowder.payment.enums.PaymentOrderStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,11 +17,8 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @Entity
-public class PaymentOrder {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+@Table(name = "payment_orders")
+public class PaymentOrder extends BaseEntity {
 
   @Column(nullable = false)
   private Long amount;

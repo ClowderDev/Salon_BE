@@ -1,12 +1,12 @@
-package com.clowder.booking.mapper;
+package com.clowder.notification.mapper;
 
-import com.clowder.booking.dto.request.BookingDTO;
-import com.clowder.booking.dto.request.NotificationDTO;
-import com.clowder.booking.model.Notification;
+import com.clowder.notification.dto.request.BookingDTO;
+import com.clowder.notification.dto.request.NotificationDTO;
+import com.clowder.notification.model.Notification;
 
 public class NotificationMapper {
 
-  public static NotificationDTO toDTO(Notification notification, BookingDTO bookingDTO) {
+  public static NotificationDTO toDto(Notification notification, BookingDTO bookingDTO) {
 
     NotificationDTO notificationDTO = new NotificationDTO();
     notificationDTO.setId(notification.getId());

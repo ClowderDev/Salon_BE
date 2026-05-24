@@ -1,7 +1,7 @@
-package com.clowder.booking.controller;
+package com.clowder.category.controller;
 
-import com.clowder.booking.model.Category;
-import com.clowder.booking.service.CategoryService;
+import com.clowder.category.model.Category;
+import com.clowder.category.service.CategoryService;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

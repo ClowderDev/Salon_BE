@@ -1,11 +1,11 @@
-package com.clowder.booking.controller;
+package com.clowder.notification.controller;
 
-import com.clowder.booking.dto.request.BookingDTO;
-import com.clowder.booking.dto.request.NotificationDTO;
-import com.clowder.booking.mapper.NotificationMapper;
-import com.clowder.booking.model.Notification;
-import com.clowder.booking.service.NotificationService;
-import com.clowder.booking.service.client.BookingClient;
+import com.clowder.notification.dto.request.BookingDTO;
+import com.clowder.notification.dto.request.NotificationDTO;
+import com.clowder.notification.mapper.NotificationMapper;
+import com.clowder.notification.model.Notification;
+import com.clowder.notification.service.NotificationService;
+import com.clowder.notification.service.client.BookingClient;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -41,7 +41,7 @@ public class NotificationController {
                 notification -> {
                   BookingDTO bookingDTO =
                       bookingClient.getBookingsById(notification.getBookingId()).getBody();
-                  return NotificationMapper.toDTO(notification, bookingDTO);
+                  return NotificationMapper.toDto(notification, bookingDTO);
                 })
             .toList();
     return ResponseEntity.ok(notificationDTOS);
@@ -53,6 +53,6 @@ public class NotificationController {
     Notification notification = notificationService.markNotificationAsRead(notificationId);
 
     BookingDTO bookingDTO = bookingClient.getBookingsById(notification.getBookingId()).getBody();
-    return ResponseEntity.ok(NotificationMapper.toDTO(notification, bookingDTO));
+    return ResponseEntity.ok(NotificationMapper.toDto(notification, bookingDTO));
   }
 }

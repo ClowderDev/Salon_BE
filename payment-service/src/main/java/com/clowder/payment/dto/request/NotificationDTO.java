@@ -1,4 +1,4 @@
-package com.clowder.booking.dto.request;
+package com.clowder.payment.dto.request;
 
 import java.time.LocalDateTime;
 import lombok.Getter;

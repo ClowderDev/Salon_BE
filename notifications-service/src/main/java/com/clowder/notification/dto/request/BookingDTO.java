@@ -1,6 +1,6 @@
-package com.clowder.booking.dto.request;
+package com.clowder.notification.dto.request;
 
-import com.clowder.booking.enums.BookingStatus;
+import com.clowder.notification.enums.BookingStatus;
 import java.time.LocalDateTime;
 import java.util.Set;
 import lombok.Getter;

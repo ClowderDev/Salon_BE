@@ -1,4 +1,4 @@
-package com.clowder.booking.dto.request;
+package com.clowder.user.dto.request;
 
 import java.util.ArrayList;
 import java.util.List;

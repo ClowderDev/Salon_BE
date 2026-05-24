@@ -1,17 +1,13 @@
-package com.clowder.booking.model;
+package com.clowder.review.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import java.time.LocalDateTime;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
 
 @Getter
 @Setter
@@ -19,11 +15,8 @@ import org.springframework.data.annotation.CreatedDate;
 @AllArgsConstructor
 @Builder
 @Entity
-public class Review {
-
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+@Table(name = "reviews")
+public class Review extends BaseEntity {
 
   @Column(nullable = false)
   private String reviewText;
@@ -36,6 +29,4 @@ public class Review {
 
   @Column(nullable = false)
   private Long userId;
-
-  @CreatedDate private LocalDateTime createdDate;
 }

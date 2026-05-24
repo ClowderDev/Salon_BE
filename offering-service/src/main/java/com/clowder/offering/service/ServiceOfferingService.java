@@ -1,9 +1,9 @@
-package com.clowder.booking.service;
+package com.clowder.offering.service;
 
-import com.clowder.booking.dto.request.CategoryDTO;
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.dto.request.ServiceDTO;
-import com.clowder.booking.model.ServiceOffering;
+import com.clowder.offering.dto.request.CategoryDTO;
+import com.clowder.offering.dto.request.SalonDTO;
+import com.clowder.offering.dto.request.ServiceDTO;
+import com.clowder.offering.model.ServiceOffering;
 import java.util.Set;
 
 public interface ServiceOfferingService {

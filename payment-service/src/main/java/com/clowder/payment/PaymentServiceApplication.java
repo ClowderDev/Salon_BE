@@ -1,4 +1,4 @@
-package com.clowder.booking;
+package com.clowder.payment;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

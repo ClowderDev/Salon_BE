@@ -1,9 +1,9 @@
-package com.clowder.booking.service;
+package com.clowder.review.service;
 
-import com.clowder.booking.dto.request.ReviewRequest;
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.dto.request.UserDTO;
-import com.clowder.booking.model.Review;
+import com.clowder.review.dto.request.ReviewRequest;
+import com.clowder.review.dto.request.SalonDTO;
+import com.clowder.review.dto.request.UserDTO;
+import com.clowder.review.model.Review;
 import java.util.List;
 
 public interface ReviewService {

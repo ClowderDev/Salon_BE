@@ -1,4 +1,10 @@
 package com.clowder.booking.dto.response;
 
-public class ApiErrorResponse {
-}
+import java.time.LocalDateTime;
+
+public record ApiErrorResponse(
+    String message,
+    String path,
+    int status,
+    LocalDateTime timestamp
+) {}

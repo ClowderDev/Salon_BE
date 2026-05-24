@@ -1,4 +1,4 @@
-package com.clowder.category.model;
+package com.clowder.notification.model;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

@@ -1,6 +1,6 @@
-package com.clowder.booking.service.client;
+package com.clowder.notification.service.client;
 
-import com.clowder.booking.dto.request.BookingDTO;
+import com.clowder.notification.dto.request.BookingDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

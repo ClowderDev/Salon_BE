@@ -1,12 +1,14 @@
-package com.clowder.booking.controller;
+package com.clowder.offering.controller;
 
-import com.clowder.booking.dto.request.CategoryDTO;
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.dto.request.ServiceDTO;
-import com.clowder.booking.model.ServiceOffering;
-import com.clowder.booking.service.ServiceOfferingService;
-import com.clowder.booking.service.client.CategoryClient;
-import com.clowder.booking.service.client.SalonClient;
+import com.clowder.offering.dto.request.CategoryDTO;
+import com.clowder.offering.dto.request.SalonDTO;
+import com.clowder.offering.dto.request.ServiceDTO;
+import com.clowder.offering.exception.ResourceNotFoundException;
+import com.clowder.offering.model.ServiceOffering;
+import com.clowder.offering.service.ServiceOfferingService;
+import com.clowder.offering.service.client.CategoryClient;
+import com.clowder.offering.service.client.SalonClient;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +31,11 @@ public class SalonServiceOfferingController {
   public ResponseEntity<ServiceOffering> createServiceOffering(
       @RequestBody ServiceDTO serviceDTO, @RequestHeader("Authorization") String jwt) {
 
-    SalonDTO salonDTO = (SalonDTO) salonClient.getSalonsByOwnerId(jwt).getBody();
+    List<SalonDTO> salons = salonClient.getSalonsByOwnerId(jwt).getBody();
+    if (salons == null || salons.isEmpty()) {
+      throw new ResourceNotFoundException("No salon found for this owner");
+    }
+    SalonDTO salonDTO = salons.get(0);
 
     CategoryDTO category =
         categoryClient

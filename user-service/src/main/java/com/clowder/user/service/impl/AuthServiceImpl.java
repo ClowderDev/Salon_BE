@@ -1,12 +1,12 @@
-package com.clowder.booking.service.impl;
+package com.clowder.user.service.impl;
 
-import com.clowder.booking.dto.request.SignUpDTO;
-import com.clowder.booking.dto.request.TokenResponse;
-import com.clowder.booking.dto.response.AuthResponse;
-import com.clowder.booking.model.User;
-import com.clowder.booking.repository.UserRepository;
-import com.clowder.booking.service.AuthService;
-import com.clowder.booking.service.KeycloakService;
+import com.clowder.user.dto.request.SignUpDTO;
+import com.clowder.user.dto.response.AuthResponse;
+import com.clowder.user.dto.response.TokenResponse;
+import com.clowder.user.model.User;
+import com.clowder.user.repository.UserRepository;
+import com.clowder.user.service.AuthService;
+import com.clowder.user.service.KeycloakService;
 import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

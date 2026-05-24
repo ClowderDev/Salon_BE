@@ -1,7 +1,7 @@
-package com.clowder.booking.service;
+package com.clowder.user.service;
 
-import com.clowder.booking.dto.request.SignUpDTO;
-import com.clowder.booking.dto.response.AuthResponse;
+import com.clowder.user.dto.request.SignUpDTO;
+import com.clowder.user.dto.response.AuthResponse;
 
 public interface AuthService {
   AuthResponse login(String username, String password);

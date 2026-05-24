@@ -1,11 +1,11 @@
-package com.clowder.booking.service.impl;
+package com.clowder.user.service.impl;
 
-import com.clowder.booking.dto.request.KeycloakUserDTO;
-import com.clowder.booking.exception.UserException;
-import com.clowder.booking.model.User;
-import com.clowder.booking.repository.UserRepository;
-import com.clowder.booking.service.KeycloakService;
-import com.clowder.booking.service.UserService;
+import com.clowder.user.dto.request.KeycloakUserDTO;
+import com.clowder.user.exception.ResourceNotFoundException;
+import com.clowder.user.model.User;
+import com.clowder.user.repository.UserRepository;
+import com.clowder.user.service.KeycloakService;
+import com.clowder.user.service.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
   public User getUserById(Long id) {
     return userRepository
         .findById(id)
-        .orElseThrow(() -> new UserException("User not found with id: " + id));
+        .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
   }
 
   @Override
@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     User existing =
         userRepository
             .findById(id)
-            .orElseThrow(() -> new UserException("User not found with id: " + id));
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
 
     existing.setFullName(user.getFullName());
     existing.setUsername(user.getUsername());
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
   @Override
   public void deleteUser(Long id) {
     if (!userRepository.existsById(id)) {
-      throw new UserException("User not found with id: " + id);
+      throw new ResourceNotFoundException("User not found with id: " + id);
     }
     userRepository.deleteById(id);
   }

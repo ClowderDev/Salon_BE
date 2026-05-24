@@ -1,10 +1,10 @@
-package com.clowder.booking.service.impl;
+package com.clowder.salon.service.impl;
 
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.dto.request.UserDTO;
-import com.clowder.booking.model.Salon;
-import com.clowder.booking.repository.SalonRepository;
-import com.clowder.booking.service.SalonService;
+import com.clowder.salon.dto.request.SalonDTO;
+import com.clowder.salon.dto.request.UserDTO;
+import com.clowder.salon.model.Salon;
+import com.clowder.salon.repository.SalonRepository;
+import com.clowder.salon.service.SalonService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

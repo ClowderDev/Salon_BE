@@ -1,6 +1,6 @@
-package com.clowder.booking.repository;
+package com.clowder.review.repository;
 
-import com.clowder.booking.model.Review;
+import com.clowder.review.model.Review;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

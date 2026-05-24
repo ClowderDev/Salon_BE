@@ -1,9 +1,9 @@
-package com.clowder.booking.controller;
+package com.clowder.user.controller;
 
-import com.clowder.booking.dto.request.LoginDTO;
-import com.clowder.booking.dto.request.SignUpDTO;
-import com.clowder.booking.dto.response.AuthResponse;
-import com.clowder.booking.service.AuthService;
+import com.clowder.user.dto.request.LoginDTO;
+import com.clowder.user.dto.request.SignUpDTO;
+import com.clowder.user.dto.response.AuthResponse;
+import com.clowder.user.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

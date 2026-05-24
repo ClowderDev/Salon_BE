@@ -1,4 +1,4 @@
-package com.clowder.booking.enums;
+package com.clowder.payment.enums;
 
 public enum BookingStatus {
   PENDING,

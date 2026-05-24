@@ -1,4 +1,4 @@
-package com.clowder.offering.model;
+package com.clowder.payment.model;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;

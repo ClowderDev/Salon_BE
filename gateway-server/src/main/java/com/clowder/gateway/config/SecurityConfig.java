@@ -1,4 +1,4 @@
-package com.clowder.booking.config;
+package com.clowder.gateway.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

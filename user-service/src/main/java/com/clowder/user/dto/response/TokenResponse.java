@@ -1,4 +1,4 @@
-package com.clowder.user.dto.request;
+package com.clowder.user.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

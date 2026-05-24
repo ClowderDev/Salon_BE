@@ -1,6 +1,7 @@
-package com.clowder.booking.exception;
+package com.clowder.notification.exception;
 
 import com.clowder.booking.dto.response.ApiErrorResponse;
+import com.clowder.booking.exception.ResourceNotFoundException;
 import feign.FeignException;
 import java.time.LocalDateTime;
 import lombok.extern.slf4j.Slf4j;

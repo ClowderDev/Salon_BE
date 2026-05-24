@@ -1,6 +1,6 @@
-package com.clowder.booking.message;
+package com.clowder.payment.message;
 
-import com.clowder.booking.model.PaymentOrder;
+import com.clowder.payment.model.PaymentOrder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class BookingEventProducer {
   private final RabbitTemplate rabbitTemplate;
 
-  public void sentBookingUpdateEvent(PaymentOrder paymentOrder) {
+  public void sendBookingUpdateEvent(PaymentOrder paymentOrder) {
     rabbitTemplate.convertAndSend("booking-queue", paymentOrder);
   }
 }
