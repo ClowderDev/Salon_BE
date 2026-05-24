@@ -44,7 +44,7 @@ spring:
               predicates:
                 - Path=/api/users,/api/users/**,/auth/**
 
-            - id: NOTIFICATION-SERVICE
+            - id: NOTIFICATIONS-SERVICE
               uri: lb://NOTIFICATION-SERVICE
               predicates:
                 - Path=/api/notifications/**
@@ -56,7 +56,7 @@ spring:
 
   security:
     oauth2:
-      resource server:
+      resourceserver:
         jwt:
           jwk-set-uri: http://localhost:8080/realms/master/protocol/openid-connect/certs
 

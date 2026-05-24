@@ -29,34 +29,34 @@ public class SecurityConfig {
                     .pathMatchers("/api/notifications/ws/**")
                     .permitAll()
                     .pathMatchers(
+                        "/api/categories/salon-owner/**",
+                        "/api/notifications/salon-owner/**",
+                        "/api/service-offering/salon-owner/**")
+                    .hasAnyRole("SALON_OWNER")
+                    .pathMatchers(
                         "/api/salons/**",
                         "/api/categories/**",
                         "/api/notifications/**",
-                        "/api/booking/**",
+                        "/api/bookings/**",
                         "/api/payment/**",
                         "/api/service-offering/**",
                         "/api/users/**",
                         "/api/reviews/**")
-                    .hasAnyRole("CUSTOMER", "ADMIN", "SALON_OWNER")
-                    .pathMatchers(
-                        "/api/categories/salon-owner/**",
-                        "/api/notifications/salon-owner/**",
-                        "/api/service-offering/salon-owner/**")
-                    .hasAnyRole("SALON_OWNER"))
+                    .hasAnyRole("CUSTOMER", "ADMIN", "SALON_OWNER"))
         .oauth2ResourceServer(
             oAuth2ResourceServer ->
                 oAuth2ResourceServer.jwt(
                     jwtSpec -> jwtSpec.jwtAuthenticationConverter(grantAuthoritiesExtractor())));
 
     http.csrf(ServerHttpSecurity.CsrfSpec::disable)
-        .cors(cors -> cors.configurationSource(corConfigurationSource()));
+        .cors(cors -> cors.configurationSource(corsConfigurationSource()));
     return http.build();
   }
 
-  private CorsConfigurationSource corConfigurationSource() {
+  private CorsConfigurationSource corsConfigurationSource() {
 
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.addAllowedOrigin("*");
+    configuration.addAllowedOriginPattern("*");
     configuration.addAllowedHeader("*");
     configuration.addAllowedMethod("*");
     configuration.setAllowCredentials(true);
