@@ -43,9 +43,6 @@ public class CategoryServiceImpl implements CategoryService {
   public void deleteCategory(Long categoryId, Long salonId) {
     Category category = getCategoryById(categoryId);
 
-    if (category == null) {
-      throw new IllegalArgumentException("Category not found");
-    }
     if (!category.getSalonId().equals(salonId)) {
       throw new IllegalArgumentException("You don't have permission to delete this category");
     }
