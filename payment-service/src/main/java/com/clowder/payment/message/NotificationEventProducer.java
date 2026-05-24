@@ -1,6 +1,6 @@
 package com.clowder.payment.message;
 
-import com.clowder.payment.dto.request.NotificationDTO;
+import com.clowder.common.dto.shared.NotificationDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Component;

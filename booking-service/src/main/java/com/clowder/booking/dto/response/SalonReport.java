@@ -12,4 +12,5 @@ public class SalonReport {
   private Integer totalBookings;
   private Integer cancelledBookings;
   private Double totalRefund;
+  private Long salonId;
 }

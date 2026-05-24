@@ -1,7 +1,7 @@
 package com.clowder.notification.controller;
 
-import com.clowder.notification.dto.request.BookingDTO;
-import com.clowder.notification.dto.request.NotificationDTO;
+import com.clowder.common.dto.shared.BookingDTO;
+import com.clowder.common.dto.shared.NotificationDTO;
 import com.clowder.notification.mapper.NotificationMapper;
 import com.clowder.notification.model.Notification;
 import com.clowder.notification.service.NotificationService;

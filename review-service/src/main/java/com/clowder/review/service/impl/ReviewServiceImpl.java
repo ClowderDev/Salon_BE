@@ -1,9 +1,9 @@
 package com.clowder.review.service.impl;
 
+import com.clowder.common.dto.shared.SalonDTO;
+import com.clowder.common.dto.shared.UserDTO;
+import com.clowder.common.exception.ResourceNotFoundException;
 import com.clowder.review.dto.request.ReviewRequest;
-import com.clowder.review.dto.request.SalonDTO;
-import com.clowder.review.dto.request.UserDTO;
-import com.clowder.review.exception.ResourceNotFoundException;
 import com.clowder.review.model.Review;
 import com.clowder.review.repository.ReviewRepository;
 import com.clowder.review.service.ReviewService;

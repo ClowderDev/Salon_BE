@@ -1,5 +1,6 @@
 package com.clowder.salon.model;
 
+import com.clowder.common.model.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;

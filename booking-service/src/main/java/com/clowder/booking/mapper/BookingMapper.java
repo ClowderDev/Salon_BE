@@ -1,7 +1,7 @@
 package com.clowder.booking.mapper;
 
-import com.clowder.booking.dto.response.BookingDTO;
 import com.clowder.booking.model.Booking;
+import com.clowder.common.dto.shared.BookingDTO;
 
 public class BookingMapper {
   public static BookingDTO toDto(Booking booking) {

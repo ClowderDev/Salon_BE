@@ -1,7 +1,8 @@
 package com.clowder.payment.model;
 
-import com.clowder.payment.enums.PaymentMethod;
-import com.clowder.payment.enums.PaymentOrderStatus;
+import com.clowder.common.enums.PaymentMethod;
+import com.clowder.common.enums.PaymentOrderStatus;
+import com.clowder.common.model.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

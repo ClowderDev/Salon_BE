@@ -1,11 +1,11 @@
 package com.clowder.category.controller;
 
 import com.clowder.category.dto.request.CategoryRequest;
-import com.clowder.category.dto.request.SalonDTO;
-import com.clowder.category.exception.ResourceNotFoundException;
 import com.clowder.category.model.Category;
 import com.clowder.category.service.CategoryService;
 import com.clowder.category.service.client.SalonClient;
+import com.clowder.common.dto.shared.SalonDTO;
+import com.clowder.common.exception.ResourceNotFoundException;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.clowder.notification.service;
 
-import com.clowder.notification.dto.request.NotificationDTO;
+import com.clowder.common.dto.shared.NotificationDTO;
 import com.clowder.notification.model.Notification;
 import java.util.List;
 

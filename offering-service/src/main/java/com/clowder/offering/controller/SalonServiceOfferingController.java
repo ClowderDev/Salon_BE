@@ -1,9 +1,9 @@
 package com.clowder.offering.controller;
 
-import com.clowder.offering.dto.request.CategoryDTO;
-import com.clowder.offering.dto.request.SalonDTO;
-import com.clowder.offering.dto.request.ServiceDTO;
-import com.clowder.offering.exception.ResourceNotFoundException;
+import com.clowder.common.dto.shared.CategoryDTO;
+import com.clowder.common.dto.shared.SalonDTO;
+import com.clowder.common.dto.shared.ServiceDTO;
+import com.clowder.common.exception.ResourceNotFoundException;
 import com.clowder.offering.model.ServiceOffering;
 import com.clowder.offering.service.ServiceOfferingService;
 import com.clowder.offering.service.client.CategoryClient;

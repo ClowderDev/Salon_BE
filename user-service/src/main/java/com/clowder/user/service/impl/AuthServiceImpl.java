@@ -1,9 +1,9 @@
 package com.clowder.user.service.impl;
 
+import com.clowder.common.exception.BusinessException;
 import com.clowder.user.dto.request.SignUpDTO;
 import com.clowder.user.dto.response.AuthResponse;
 import com.clowder.user.dto.response.TokenResponse;
-import com.clowder.user.exception.BusinessException;
 import com.clowder.user.model.User;
 import com.clowder.user.repository.UserRepository;
 import com.clowder.user.service.AuthService;

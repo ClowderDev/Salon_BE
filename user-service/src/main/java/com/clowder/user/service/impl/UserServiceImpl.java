@@ -1,7 +1,7 @@
 package com.clowder.user.service.impl;
 
+import com.clowder.common.exception.ResourceNotFoundException;
 import com.clowder.user.dto.request.KeycloakUserDTO;
-import com.clowder.user.exception.ResourceNotFoundException;
 import com.clowder.user.model.User;
 import com.clowder.user.repository.UserRepository;
 import com.clowder.user.service.KeycloakService;

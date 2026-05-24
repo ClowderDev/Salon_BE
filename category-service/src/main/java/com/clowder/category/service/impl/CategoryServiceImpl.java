@@ -1,10 +1,10 @@
 package com.clowder.category.service.impl;
 
 import com.clowder.category.dto.request.CategoryRequest;
-import com.clowder.category.dto.request.SalonDTO;
 import com.clowder.category.model.Category;
 import com.clowder.category.repository.CategoryRepository;
 import com.clowder.category.service.CategoryService;
+import com.clowder.common.dto.shared.SalonDTO;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

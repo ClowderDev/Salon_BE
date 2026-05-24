@@ -1,5 +1,6 @@
 package com.clowder.notification.model;
 
+import com.clowder.common.model.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;

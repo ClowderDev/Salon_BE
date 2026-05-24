@@ -1,7 +1,7 @@
 package com.clowder.salon.service.impl;
 
-import com.clowder.salon.dto.request.SalonDTO;
-import com.clowder.salon.dto.request.UserDTO;
+import com.clowder.common.dto.shared.UserDTO;
+import com.clowder.salon.dto.request.SalonRequest;
 import com.clowder.salon.model.Salon;
 import com.clowder.salon.repository.SalonRepository;
 import com.clowder.salon.service.SalonService;
@@ -16,7 +16,7 @@ public class SalonServiceImpl implements SalonService {
   private final SalonRepository salonRepository;
 
   @Override
-  public Salon createSalon(SalonDTO salon, UserDTO user) {
+  public Salon createSalon(SalonRequest salon, UserDTO user) {
     if (salonRepository.existsByNameAndAddressAndCity(
         salon.getName(), salon.getAddress(), salon.getCity())) {
       throw new IllegalArgumentException(
@@ -38,7 +38,7 @@ public class SalonServiceImpl implements SalonService {
   }
 
   @Override
-  public Salon updateSalon(SalonDTO salon, UserDTO user, Long salonId) {
+  public Salon updateSalon(SalonRequest salon, UserDTO user, Long salonId) {
 
     Salon existingSalon =
         salonRepository

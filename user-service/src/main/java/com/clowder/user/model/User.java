@@ -1,6 +1,7 @@
 package com.clowder.user.model;
 
-import com.clowder.user.enums.UserRole;
+import com.clowder.common.enums.UserRole;
+import com.clowder.common.model.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

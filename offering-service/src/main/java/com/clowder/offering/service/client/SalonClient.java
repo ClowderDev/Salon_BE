@@ -1,6 +1,6 @@
 package com.clowder.offering.service.client;
 
-import com.clowder.offering.dto.request.SalonDTO;
+import com.clowder.common.dto.shared.SalonDTO;
 import java.util.List;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;

@@ -1,8 +1,8 @@
 package com.clowder.category.service;
 
 import com.clowder.category.dto.request.CategoryRequest;
-import com.clowder.category.dto.request.SalonDTO;
 import com.clowder.category.model.Category;
+import com.clowder.common.dto.shared.SalonDTO;
 import java.util.Set;
 
 public interface CategoryService {

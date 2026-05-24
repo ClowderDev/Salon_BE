@@ -1,15 +1,15 @@
 package com.clowder.booking.service.impl;
 
 import com.clowder.booking.dto.request.BookingRequest;
-import com.clowder.booking.dto.request.PaymentOrder;
-import com.clowder.booking.dto.request.SalonDTO;
-import com.clowder.booking.dto.request.ServiceDTO;
-import com.clowder.booking.dto.request.UserDTO;
 import com.clowder.booking.dto.response.SalonReport;
-import com.clowder.booking.enums.BookingStatus;
 import com.clowder.booking.model.Booking;
 import com.clowder.booking.repository.BookingRepository;
 import com.clowder.booking.service.BookingService;
+import com.clowder.common.dto.shared.PaymentOrderDTO;
+import com.clowder.common.dto.shared.SalonDTO;
+import com.clowder.common.dto.shared.ServiceDTO;
+import com.clowder.common.dto.shared.UserDTO;
+import com.clowder.common.enums.BookingStatus;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -162,7 +162,7 @@ public class BookingServiceImpl implements BookingService {
   }
 
   @Override
-  public Booking bookingSuccess(PaymentOrder paymentOrder) {
+  public Booking bookingSuccess(PaymentOrderDTO paymentOrder) {
 
     Booking existedBooking = getBookingById(paymentOrder.getBookingId());
     existedBooking.setStatus(BookingStatus.CONFIRMED);

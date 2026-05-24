@@ -1,7 +1,8 @@
 package com.clowder.salon.controller;
 
-import com.clowder.salon.dto.request.SalonDTO;
-import com.clowder.salon.dto.request.UserDTO;
+import com.clowder.common.dto.shared.SalonDTO;
+import com.clowder.common.dto.shared.UserDTO;
+import com.clowder.salon.dto.request.SalonRequest;
 import com.clowder.salon.mapper.SalonMapper;
 import com.clowder.salon.model.Salon;
 import com.clowder.salon.service.SalonService;
@@ -30,7 +31,7 @@ public class SalonController {
 
   @PostMapping
   public ResponseEntity<SalonDTO> createSalon(
-      @RequestBody @Valid SalonDTO salon, @RequestHeader("Authorization") String jwt) {
+      @RequestBody @Valid SalonRequest salon, @RequestHeader("Authorization") String jwt) {
     UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
     Salon createdSalon = salonService.createSalon(salon, userDTO);
     SalonDTO dto = SalonMapper.toDto(createdSalon);
@@ -39,7 +40,7 @@ public class SalonController {
 
   @PatchMapping("/{id}")
   public ResponseEntity<SalonDTO> updateSalon(
-      @RequestBody @Valid SalonDTO salon,
+      @RequestBody @Valid SalonRequest salon,
       @PathVariable("id") Long salonId,
       @RequestHeader("Authorization") String jwt) {
     UserDTO userDTO = userClient.getUserProfile(jwt).getBody();

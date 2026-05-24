@@ -1,6 +1,6 @@
 package com.clowder.category.service.client;
 
-import com.clowder.category.dto.request.UserDTO;
+import com.clowder.common.dto.shared.UserDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,6 +1,7 @@
 package com.clowder.booking.model;
 
-import com.clowder.booking.enums.BookingStatus;
+import com.clowder.common.enums.BookingStatus;
+import com.clowder.common.model.BaseEntity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;

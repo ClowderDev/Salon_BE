@@ -1,6 +1,6 @@
 package com.clowder.salon.mapper;
 
-import com.clowder.salon.dto.request.SalonDTO;
+import com.clowder.common.dto.shared.SalonDTO;
 import com.clowder.salon.model.Salon;
 
 public class SalonMapper {

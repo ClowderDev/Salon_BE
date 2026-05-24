@@ -1,6 +1,6 @@
 package com.clowder.user.dto.request;
 
-import com.clowder.user.enums.UserRole;
+import com.clowder.common.enums.UserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

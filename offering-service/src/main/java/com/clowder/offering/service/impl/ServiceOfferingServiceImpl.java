@@ -1,8 +1,8 @@
 package com.clowder.offering.service.impl;
 
-import com.clowder.offering.dto.request.CategoryDTO;
-import com.clowder.offering.dto.request.SalonDTO;
-import com.clowder.offering.dto.request.ServiceDTO;
+import com.clowder.common.dto.shared.CategoryDTO;
+import com.clowder.common.dto.shared.SalonDTO;
+import com.clowder.common.dto.shared.ServiceDTO;
 import com.clowder.offering.model.ServiceOffering;
 import com.clowder.offering.repository.ServiceOfferingRepository;
 import com.clowder.offering.service.ServiceOfferingService;
