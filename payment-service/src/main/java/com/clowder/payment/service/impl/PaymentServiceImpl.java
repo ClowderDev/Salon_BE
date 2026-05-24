@@ -54,6 +54,7 @@ public class PaymentServiceImpl implements PaymentService {
     paymentOrder.setPaymentMethod(paymentMethod);
     paymentOrder.setSalonId(booking.getSalonId());
     paymentOrder.setBookingId(booking.getId());
+    paymentOrder.setUserId(user.getId());
 
     PaymentOrder savedOrder = paymentRepository.save(paymentOrder);
 
@@ -115,7 +116,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     paymentLinkRequest.put("reminder_enable", true);
 
-    paymentLinkRequest.put("calback_url", "http:localhost:3000/payment-success/" + orderId);
+    paymentLinkRequest.put("callback_url", "http:localhost:3000/payment-success/" + orderId);
 
     paymentLinkRequest.put("callback_method", "get");
 
@@ -157,7 +158,7 @@ public class PaymentServiceImpl implements PaymentService {
   @Override
   public Boolean proceedPayment(PaymentOrder paymentOrder, String paymentId, String paymentLinkId)
       throws RazorpayException {
-    if (paymentOrder.getStatus().equals(PaymentMethod.RAZORPAY)) {
+    if (paymentOrder.getPaymentMethod().equals(PaymentMethod.RAZORPAY)) {
       RazorpayClient razorpay = new RazorpayClient(razorpayApiKey, razorpayApiSecret);
 
       Payment payment = razorpay.payments.fetch(paymentId);
