@@ -3,6 +3,7 @@ package com.clowder.review.service.impl;
 import com.clowder.review.dto.request.ReviewRequest;
 import com.clowder.review.dto.request.SalonDTO;
 import com.clowder.review.dto.request.UserDTO;
+import com.clowder.review.exception.ResourceNotFoundException;
 import com.clowder.review.model.Review;
 import com.clowder.review.repository.ReviewRepository;
 import com.clowder.review.service.ReviewService;
@@ -35,7 +36,7 @@ public class ReviewServiceImpl implements ReviewService {
   private Review getReviewById(Long id) {
     return reviewRepository
         .findById(id)
-        .orElseThrow(() -> new RuntimeException("Review not found"));
+        .orElseThrow(() -> new ResourceNotFoundException("Review not found with id: " + id));
   }
 
   @Override
@@ -43,7 +44,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     Review review = getReviewById(reviewId);
     if (!review.getUserId().equals(userId)) {
-      throw new RuntimeException("Review not found");
+      throw new RuntimeException("You don't have permission to modify this review");
     }
 
     review.setReviewText(req.getReviewText());
@@ -57,7 +58,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     Review review = getReviewById(reviewId);
     if (!review.getUserId().equals(userId)) {
-      throw new RuntimeException("Review not found");
+      throw new RuntimeException("You don't have permission to modify this review");
     }
 
     reviewRepository.delete(review);
