@@ -23,18 +23,18 @@ public class SalonServiceImpl implements SalonService {
           "Salon with the same name, address, and city already exists");
     }
 
-    Salon s = new Salon();
-    s.setName(salon.getName());
-    s.setAddress(salon.getAddress());
-    s.setCity(salon.getCity());
-    s.setPhoneNumber(salon.getPhoneNumber());
-    s.setEmail(salon.getEmail());
-    s.setImages(salon.getImages());
-    s.setOwnerId(user.getId());
-    s.setOpeningTime(salon.getOpeningTime());
-    s.setClosingTime(salon.getClosingTime());
+    Salon newSalon = new Salon();
+    newSalon.setName(salon.getName());
+    newSalon.setAddress(salon.getAddress());
+    newSalon.setCity(salon.getCity());
+    newSalon.setPhoneNumber(salon.getPhoneNumber());
+    newSalon.setEmail(salon.getEmail());
+    newSalon.setImages(salon.getImages());
+    newSalon.setOwnerId(user.getId());
+    newSalon.setOpeningTime(salon.getOpeningTime());
+    newSalon.setClosingTime(salon.getClosingTime());
 
-    return salonRepository.save(s);
+    return salonRepository.save(newSalon);
   }
 
   @Override

@@ -6,6 +6,7 @@ import com.clowder.salon.mapper.SalonMapper;
 import com.clowder.salon.model.Salon;
 import com.clowder.salon.service.SalonService;
 import com.clowder.salon.service.client.UserClient;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class SalonController {
 
   @PostMapping
   public ResponseEntity<SalonDTO> createSalon(
-      @RequestBody SalonDTO salon, @RequestHeader("Authorization") String jwt) {
+      @RequestBody @Valid SalonDTO salon, @RequestHeader("Authorization") String jwt) {
     UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
     Salon createdSalon = salonService.createSalon(salon, userDTO);
     SalonDTO dto = SalonMapper.toDto(createdSalon);
@@ -41,19 +42,14 @@ public class SalonController {
       @RequestBody SalonDTO salon,
       @PathVariable("id") Long salonId,
       @RequestHeader("Authorization") String jwt) {
-    if (salon.getId() == null) {
-      return ResponseEntity.badRequest().build();
-    }
-
     UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
-
     Salon updatedSalon = salonService.updateSalon(salon, userDTO, salonId);
     SalonDTO dto = SalonMapper.toDto(updatedSalon);
     return ResponseEntity.ok(dto);
   }
 
   @GetMapping
-  public ResponseEntity<List<SalonDTO>> getAllSalons(UserDTO user) {
+  public ResponseEntity<List<SalonDTO>> getAllSalons() {
     List<Salon> salons = salonService.getSalons();
     List<SalonDTO> dtos = salons.stream().map(SalonMapper::toDto).toList();
     return ResponseEntity.ok(dtos);
@@ -70,11 +66,9 @@ public class SalonController {
   public ResponseEntity<List<SalonDTO>> getSalonsByOwnerId(
       @RequestHeader("Authorization") String jwt) {
     UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
-
     if (userDTO == null) {
       return ResponseEntity.badRequest().build();
     }
-
     List<Salon> salons = salonService.getSalonsByOwnerId(userDTO.getId());
     List<SalonDTO> dtos = salons.stream().map(SalonMapper::toDto).toList();
     return ResponseEntity.ok(dtos);
