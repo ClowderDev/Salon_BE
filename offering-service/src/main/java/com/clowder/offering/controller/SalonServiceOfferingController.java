@@ -8,6 +8,7 @@ import com.clowder.offering.model.ServiceOffering;
 import com.clowder.offering.service.ServiceOfferingService;
 import com.clowder.offering.service.client.CategoryClient;
 import com.clowder.offering.service.client.SalonClient;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -30,7 +31,7 @@ public class SalonServiceOfferingController {
 
   @PostMapping()
   public ResponseEntity<ServiceOffering> createServiceOffering(
-      @RequestBody ServiceDTO serviceDTO, @RequestHeader("Authorization") String jwt) {
+      @RequestBody @Valid ServiceDTO serviceDTO, @RequestHeader("Authorization") String jwt) {
 
     List<SalonDTO> salons = salonClient.getSalonsByOwnerId(jwt).getBody();
     if (salons == null || salons.isEmpty()) {

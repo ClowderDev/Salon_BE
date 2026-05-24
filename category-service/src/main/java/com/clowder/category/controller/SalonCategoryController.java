@@ -1,10 +1,12 @@
 package com.clowder.category.controller;
 
+import com.clowder.category.dto.request.CategoryRequest;
 import com.clowder.category.dto.request.SalonDTO;
 import com.clowder.category.exception.ResourceNotFoundException;
 import com.clowder.category.model.Category;
 import com.clowder.category.service.CategoryService;
 import com.clowder.category.service.client.SalonClient;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +29,7 @@ public class SalonCategoryController {
 
   @PostMapping()
   public ResponseEntity<Category> createCategory(
-      @RequestBody Category category, @RequestHeader("Authorization") String jwt) {
+      @RequestBody @Valid CategoryRequest category, @RequestHeader("Authorization") String jwt) {
 
     List<SalonDTO> salons = salonClient.getSalonsByOwnerId(jwt).getBody();
     if (salons == null || salons.isEmpty()) {

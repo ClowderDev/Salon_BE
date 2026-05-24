@@ -17,6 +17,7 @@ import com.clowder.booking.service.client.PaymentClient;
 import com.clowder.booking.service.client.SalonClient;
 import com.clowder.booking.service.client.ServiceOfferingClient;
 import com.clowder.booking.service.client.UserClient;
+import jakarta.validation.Valid;
 import java.time.LocalDate;
 import java.util.Collections;
 import java.util.List;
@@ -49,7 +50,7 @@ public class BookingController {
   public ResponseEntity<PaymentLinkResponse> createBooking(
       @RequestParam Long salonId,
       @RequestParam PaymentMethod paymentMethod,
-      @RequestBody BookingRequest bookingRequest,
+      @RequestBody @Valid BookingRequest bookingRequest,
       @RequestHeader("Authorization") String jwt)
       throws Exception {
 
@@ -59,7 +60,7 @@ public class BookingController {
 
     Set<ServiceDTO> serviceDTOSet =
         Collections.singleton(
-            serviceOfferingClient.getServicesById(bookingRequest.getServiceIds()).getBody());
+            serviceOfferingClient.getServicesById(bookingRequest.getServicesIds()).getBody());
 
     Booking booking = bookingService.createBooking(bookingRequest, userDTO, salon, serviceDTOSet);
 

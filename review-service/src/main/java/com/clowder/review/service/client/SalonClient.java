@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 
-@FeignClient("SALON-SERVICE")
+@FeignClient("salon-service")
 public interface SalonClient {
 
   @GetMapping("/api/salons/owner")

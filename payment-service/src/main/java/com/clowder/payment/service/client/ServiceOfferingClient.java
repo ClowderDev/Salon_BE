@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient("SERVICE-OFFERING")
+@FeignClient("service-offering")
 public interface ServiceOfferingClient {
 
   @GetMapping("/api/service-offering/{id}")

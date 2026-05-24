@@ -7,6 +7,7 @@ import com.clowder.review.model.Review;
 import com.clowder.review.service.ReviewService;
 import com.clowder.review.service.client.SalonClient;
 import com.clowder.review.service.client.UserClient;
+import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class ReviewController {
   @PostMapping("/salon/{salonId}")
   public ResponseEntity<Review> createReview(
       @PathVariable Long salonId,
-      @RequestBody ReviewRequest req,
+      @RequestBody @Valid ReviewRequest req,
       @RequestHeader("Authorization") String jwt) {
 
     UserDTO user = userClient.getUserProfile(jwt).getBody();
@@ -56,7 +57,7 @@ public class ReviewController {
   @PutMapping("/{reviewId}")
   public ResponseEntity<Review> updateReview(
       @PathVariable Long reviewId,
-      @RequestBody ReviewRequest req,
+      @RequestBody @Valid ReviewRequest req,
       @RequestHeader("Authorization") String jwt) {
 
     UserDTO user = userClient.getUserProfile(jwt).getBody();

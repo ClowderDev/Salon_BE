@@ -1,5 +1,6 @@
 package com.clowder.category.service.impl;
 
+import com.clowder.category.dto.request.CategoryRequest;
 import com.clowder.category.dto.request.SalonDTO;
 import com.clowder.category.model.Category;
 import com.clowder.category.repository.CategoryRepository;
@@ -15,16 +16,11 @@ public class CategoryServiceImpl implements CategoryService {
   private final CategoryRepository categoryRepository;
 
   @Override
-  public Category createCategory(Category category, SalonDTO salonDTO) {
-    if (category.getId() != null && categoryRepository.findById(category.getId()).isPresent()) {
-      throw new IllegalArgumentException("Category with the same ID already exists");
-    }
-
-    Category newCategory = new Category();
-    newCategory.setName(category.getName());
-    newCategory.setSalonId(category.getSalonId());
-    newCategory.setImage(category.getImage());
-    return categoryRepository.save(newCategory);
+  public Category createCategory(CategoryRequest request, SalonDTO salonDTO) {
+    Category category = new Category();
+    category.setName(request.getName());
+    category.setSalonId(salonDTO.getId());
+    return categoryRepository.save(category);
   }
 
   @Override

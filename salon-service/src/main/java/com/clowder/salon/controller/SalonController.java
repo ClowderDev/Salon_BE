@@ -39,7 +39,7 @@ public class SalonController {
 
   @PatchMapping("/{id}")
   public ResponseEntity<SalonDTO> updateSalon(
-      @RequestBody SalonDTO salon,
+      @RequestBody @Valid SalonDTO salon,
       @PathVariable("id") Long salonId,
       @RequestHeader("Authorization") String jwt) {
     UserDTO userDTO = userClient.getUserProfile(jwt).getBody();
