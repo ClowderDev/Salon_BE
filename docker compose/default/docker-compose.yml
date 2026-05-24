@@ -62,7 +62,10 @@ services:
     depends_on:
       eurekaserver:
         condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
+      CONFIG_SERVER_URL: http://config-server:8071
       SPRING_APPLICATION_NAME: gateway-server
       EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/
     deploy:
@@ -82,7 +85,10 @@ services:
         condition: service_completed_successfully
       eurekaserver:
         condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
+      CONFIG_SERVER_URL: http://config-server:8071
       SPRING_APPLICATION_NAME: user-service
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/user_database
       SPRING_DATASOURCE_USERNAME: root
@@ -107,7 +113,10 @@ services:
         condition: service_completed_successfully
       eurekaserver:
         condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
+      CONFIG_SERVER_URL: http://config-server:8071
       SPRING_APPLICATION_NAME: salon-service
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/salon_database
       SPRING_DATASOURCE_USERNAME: root
@@ -132,7 +141,10 @@ services:
         condition: service_completed_successfully
       eurekaserver:
         condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
+      CONFIG_SERVER_URL: http://config-server:8071
       SPRING_APPLICATION_NAME: category-service
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/category_database
       SPRING_DATASOURCE_USERNAME: root
@@ -157,7 +169,10 @@ services:
         condition: service_completed_successfully
       eurekaserver:
         condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
+      CONFIG_SERVER_URL: http://config-server:8071
       SPRING_APPLICATION_NAME: offering-service
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/offering_database
       SPRING_DATASOURCE_USERNAME: root
@@ -182,7 +197,10 @@ services:
         condition: service_completed_successfully
       eurekaserver:
         condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
+      CONFIG_SERVER_URL: http://config-server:8071
       SPRING_APPLICATION_NAME: booking-service
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/booking_database
       SPRING_DATASOURCE_USERNAME: root
@@ -207,7 +225,10 @@ services:
         condition: service_completed_successfully
       eurekaserver:
         condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
+      CONFIG_SERVER_URL: http://config-server:8071
       SPRING_APPLICATION_NAME: payment-service
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/payment_database
       SPRING_DATASOURCE_USERNAME: root
@@ -232,7 +253,10 @@ services:
         condition: service_completed_successfully
       eurekaserver:
         condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
+      CONFIG_SERVER_URL: http://config-server:8071
       SPRING_APPLICATION_NAME: notification-service
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/notification_database
       SPRING_DATASOURCE_USERNAME: root
@@ -257,7 +281,10 @@ services:
         condition: service_completed_successfully
       eurekaserver:
         condition: service_healthy
+      config-server:
+        condition: service_healthy
     environment:
+      CONFIG_SERVER_URL: http://config-server:8071
       SPRING_APPLICATION_NAME: review-service
       SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/review_database
       SPRING_DATASOURCE_USERNAME: root
@@ -271,6 +298,18 @@ services:
       start_period: 20s
     networks:
       - clowderline
+
+  config-server:
+    image: clowderline/salon-config:v1
+    ports:
+      - "8071:8071"
+    environment:
+      CONFIG_REPO_PATH: /config-repo
+      EUREKA_URL: http://eureka-server:8070/eureka/
+    volumes:
+      - ./config-repo:/config-repo
+    depends_on:
+      - eureka-server
 
 networks:
   clowderline:
