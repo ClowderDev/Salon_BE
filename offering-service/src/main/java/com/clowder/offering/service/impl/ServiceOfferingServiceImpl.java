@@ -9,7 +9,6 @@ import com.clowder.offering.service.ServiceOfferingService;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -69,16 +68,10 @@ public class ServiceOfferingServiceImpl implements ServiceOfferingService {
 
   @Override
   public Set<ServiceOffering> getAllServicesBySalonId(Long salonId, Long categoryId) {
-    Set<ServiceOffering> services = serviceOfferingRepository.findBySalonId(salonId);
-
     if (categoryId != null) {
-      services =
-          services.stream()
-              .filter(s -> s.getCategoryId() != null && s.getCategoryId().equals(categoryId))
-              .collect(Collectors.toSet());
+      return serviceOfferingRepository.findBySalonIdAndCategoryId(salonId, categoryId);
     }
-
-    return services;
+    return serviceOfferingRepository.findBySalonId(salonId);
   }
 
   @Override

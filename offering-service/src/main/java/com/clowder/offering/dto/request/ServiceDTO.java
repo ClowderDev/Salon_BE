@@ -15,7 +15,7 @@ public class ServiceDTO {
 
   private String description;
 
-  private String price;
+  private int price;
 
   private int duration;
 

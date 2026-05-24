@@ -25,7 +25,7 @@ public class ServiceOffering extends BaseEntity {
   private String description;
 
   @Column(nullable = false)
-  private String price;
+  private int price;
 
   @Column(nullable = false)
   private int duration;

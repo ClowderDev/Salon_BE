@@ -9,4 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface ServiceOfferingRepository extends JpaRepository<ServiceOffering, Long> {
 
   Set<ServiceOffering> findBySalonId(Long salonId);
+
+  Set<ServiceOffering> findBySalonIdAndCategoryId(Long salonId, Long categoryId);
 }
