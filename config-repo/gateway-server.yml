@@ -1,0 +1,58 @@
+server:
+  port: 8000
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+
+          routes:
+            - id: BOOKING-SERVICE
+              uri: lb://BOOKING-SERVICE
+              predicates:
+                - Path=/api/bookings/**
+
+            - id: CATEGORY-SERVICE
+              uri: lb://CATEGORY-SERVICE
+              predicates:
+                - Path=/api/categories/**
+
+            - id: OFFERING-SERVICE
+              uri: lb://OFFERING-SERVICE
+              predicates:
+                - Path=/api/service-offering/**
+
+            - id: PAYMENT-SERVICE
+              uri: lb://PAYMENT-SERVICE
+              predicates:
+                - Path=/api/payments/**
+
+            - id: SALON-SERVICE
+              uri: lb://SALON-SERVICE
+              predicates:
+                - Path=/api/salons/**
+
+            - id: USER-SERVICE
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/api/users,/api/users/**,/auth/**
+
+            - id: NOTIFICATIONS-SERVICE
+              uri: lb://NOTIFICATIONS-SERVICE
+              predicates:
+                - Path=/api/notifications/**
+
+            - id: REVIEW-SERVICE
+              uri: lb://REVIEW-SERVICE
+              predicates:
+                - Path=/api/reviews/**
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: ${KEYCLOAK_JWK_URI:http://localhost:8080/realms/master/protocol/openid-connect/certs}

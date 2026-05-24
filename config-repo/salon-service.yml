@@ -1,0 +1,5 @@
+server:
+  port: 8002
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/salon_database
