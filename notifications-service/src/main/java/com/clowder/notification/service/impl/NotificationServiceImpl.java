@@ -19,15 +19,12 @@ public class NotificationServiceImpl implements NotificationService {
   private final BookingClient bookingClient;
 
   @Override
-  public NotificationDTO createNotification(Notification notificationDTO) {
+  public NotificationDTO createNotification(Notification notification) {
 
-    Notification savedNotification = notificationRepository.save(notificationDTO);
-
+    Notification savedNotification = notificationRepository.save(notification);
     BookingDTO bookingDTO =
         bookingClient.getBookingsById(savedNotification.getBookingId()).getBody();
-
-    NotificationDTO notificationDTO1 = NotificationMapper.toDto(savedNotification, bookingDTO);
-    return notificationDTO1;
+    return NotificationMapper.toDto(savedNotification, bookingDTO);
   }
 
   @Override
