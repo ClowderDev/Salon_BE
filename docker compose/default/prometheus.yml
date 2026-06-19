@@ -1,0 +1,43 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'booking-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['booking:8005']
+
+  - job_name: 'salon-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['salon:8002']
+
+  - job_name: 'category-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['category:8003']
+
+  - job_name: 'offering-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['offering:8004']
+
+  - job_name: 'user-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['user:8001']
+
+  - job_name: 'payment-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['payment:8006']
+
+  - job_name: 'notification-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['notification:8007']
+
+  - job_name: 'review-service'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['review:8008']

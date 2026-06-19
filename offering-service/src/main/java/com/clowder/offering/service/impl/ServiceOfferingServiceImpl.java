@@ -10,6 +10,9 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,6 +22,7 @@ public class ServiceOfferingServiceImpl implements ServiceOfferingService {
   private final ServiceOfferingRepository serviceOfferingRepository;
 
   @Override
+  @CacheEvict(value = "offerings_salon", key = "#salonDTO.id")
   public ServiceOffering createService(
       SalonDTO salonDTO, ServiceDTO serviceDTO, CategoryDTO categoryDTO) {
 
@@ -45,6 +49,10 @@ public class ServiceOfferingServiceImpl implements ServiceOfferingService {
   }
 
   @Override
+  @Caching(evict = {
+    @CacheEvict(value = "offering", key = "#serviceId"),
+    @CacheEvict(value = "offerings_salon", key = "#result.salonId")
+  })
   public ServiceOffering updateService(Long serviceId, ServiceOffering service) {
 
     if (serviceId == null || service.getId() == null) {
@@ -67,6 +75,7 @@ public class ServiceOfferingServiceImpl implements ServiceOfferingService {
   }
 
   @Override
+  @Cacheable(value = "offerings_salon", key = "#salonId + (#categoryId != null ? '-' + #categoryId : '')")
   public Set<ServiceOffering> getAllServicesBySalonId(Long salonId, Long categoryId) {
     if (categoryId != null) {
       return serviceOfferingRepository.findBySalonIdAndCategoryId(salonId, categoryId);
@@ -81,6 +90,7 @@ public class ServiceOfferingServiceImpl implements ServiceOfferingService {
   }
 
   @Override
+  @Cacheable(value = "offering", key = "#id")
   public ServiceOffering getServiceById(Long id) {
     ServiceOffering serviceOffering =
         serviceOfferingRepository

@@ -10,6 +10,8 @@ import com.clowder.review.service.client.UserClient;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Reviews", description = "Operations related to customer reviews")
 @RestController
 @RequestMapping("/api/reviews")
 @RequiredArgsConstructor
@@ -30,6 +33,7 @@ public class ReviewController {
   private final UserClient userClient;
   private final SalonClient salonClient;
 
+  @Operation(summary = "Create a new review for a salon")
   @PostMapping("/salon/{salonId}")
   public ResponseEntity<Review> createReview(
       @PathVariable Long salonId,
@@ -44,6 +48,7 @@ public class ReviewController {
     return ResponseEntity.ok(review);
   }
 
+  @Operation(summary = "Get all reviews for a salon")
   @GetMapping("/salon/{salonId}")
   public ResponseEntity<List<Review>> getReviewBySalonId(@PathVariable Long salonId) {
 
@@ -54,6 +59,7 @@ public class ReviewController {
     return ResponseEntity.ok(review);
   }
 
+  @Operation(summary = "Update a review")
   @PutMapping("/{reviewId}")
   public ResponseEntity<Review> updateReview(
       @PathVariable Long reviewId,
@@ -66,6 +72,7 @@ public class ReviewController {
     return ResponseEntity.ok(review);
   }
 
+  @Operation(summary = "Delete a review")
   @DeleteMapping("/{reviewId}")
   public ResponseEntity<Review> deleteReview(
       @PathVariable Long reviewId, @RequestHeader("Authorization") String jwt) {

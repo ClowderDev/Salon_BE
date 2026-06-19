@@ -7,6 +7,9 @@ import com.clowder.category.service.CategoryService;
 import com.clowder.common.dto.shared.SalonDTO;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
   private final CategoryRepository categoryRepository;
 
   @Override
+  @CacheEvict(value = "categories_salon", key = "#salonDTO.id")
   public Category createCategory(CategoryRequest request, SalonDTO salonDTO) {
     Category category = new Category();
     category.setName(request.getName());
@@ -24,11 +28,13 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
+  @Cacheable(value = "categories_salon", key = "#salonId")
   public Set<Category> getAllCategoriesBySalon(Long salonId) {
     return categoryRepository.findBySalonId(salonId);
   }
 
   @Override
+  @Cacheable(value = "category", key = "#categoryId")
   public Category getCategoryById(Long categoryId) {
     return categoryRepository
         .findById(categoryId)
@@ -36,6 +42,10 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
+  @Caching(evict = {
+    @CacheEvict(value = "category", key = "#categoryId"),
+    @CacheEvict(value = "categories_salon", key = "#salonId")
+  })
   public void deleteCategory(Long categoryId, Long salonId) {
     Category category = getCategoryById(categoryId);
 
@@ -46,6 +56,7 @@ public class CategoryServiceImpl implements CategoryService {
   }
 
   @Override
+  @Cacheable(value = "category", key = "#id")
   public Category findByIdAndSalonId(Long id, Long salonId) {
     Category category = categoryRepository.findByIdAndSalonId(id, salonId);
     if (category == null) {

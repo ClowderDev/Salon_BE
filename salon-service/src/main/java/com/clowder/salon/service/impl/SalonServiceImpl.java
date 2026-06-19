@@ -7,6 +7,9 @@ import com.clowder.salon.repository.SalonRepository;
 import com.clowder.salon.service.SalonService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +19,7 @@ public class SalonServiceImpl implements SalonService {
   private final SalonRepository salonRepository;
 
   @Override
+  @CacheEvict(value = {"salons_all", "salons_city", "salons_owner"}, allEntries = true)
   public Salon createSalon(SalonRequest salon, UserDTO user) {
     if (salonRepository.existsByNameAndAddressAndCity(
         salon.getName(), salon.getAddress(), salon.getCity())) {
@@ -38,6 +42,10 @@ public class SalonServiceImpl implements SalonService {
   }
 
   @Override
+  @Caching(evict = {
+    @CacheEvict(value = "salon", key = "#salonId"),
+    @CacheEvict(value = {"salons_all", "salons_city", "salons_owner"}, allEntries = true)
+  })
   public Salon updateSalon(SalonRequest salon, UserDTO user, Long salonId) {
 
     Salon existingSalon =
@@ -64,11 +72,13 @@ public class SalonServiceImpl implements SalonService {
   }
 
   @Override
+  @Cacheable(value = "salons_all")
   public List<Salon> getSalons() {
     return salonRepository.findAll();
   }
 
   @Override
+  @Cacheable(value = "salon", key = "#salonId")
   public Salon getSalonById(Long salonId) {
     return salonRepository
         .findById(salonId)
@@ -76,11 +86,13 @@ public class SalonServiceImpl implements SalonService {
   }
 
   @Override
+  @Cacheable(value = "salons_owner", key = "#ownerId")
   public List<Salon> getSalonsByOwnerId(Long ownerId) {
     return salonRepository.findByOwnerId(ownerId);
   }
 
   @Override
+  @Cacheable(value = "salons_city", key = "#city")
   public List<Salon> getSalonsByCity(String city) {
     return salonRepository.searchSalons(city);
   }

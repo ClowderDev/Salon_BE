@@ -1,5 +1,6 @@
 package com.clowder.booking.service.client;
 
+import com.clowder.booking.service.client.fallback.PaymentClientFallback;
 import com.clowder.common.dto.shared.BookingDTO;
 import com.clowder.common.dto.shared.PaymentLinkResponse;
 import com.clowder.common.enums.PaymentMethod;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient("payment-service")
+@FeignClient(name = "payment-service", fallback = PaymentClientFallback.class)
 public interface PaymentClient {
 
   @PostMapping("/api/payments/create")

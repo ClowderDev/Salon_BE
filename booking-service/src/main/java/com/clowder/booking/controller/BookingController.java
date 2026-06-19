@@ -24,6 +24,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Bookings", description = "Create and manage salon bookings")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/bookings")
@@ -46,6 +50,7 @@ public class BookingController {
   private final ServiceOfferingClient serviceOfferingClient;
   private final PaymentClient paymentClient;
 
+  @Operation(summary = "Create a new booking and generate payment link")
   @PostMapping
   public ResponseEntity<PaymentLinkResponse> createBooking(
       @RequestParam Long salonId,
@@ -71,6 +76,7 @@ public class BookingController {
     return ResponseEntity.ok(res);
   }
 
+  @Operation(summary = "Get bookings for the authenticated customer")
   @GetMapping("/customer")
   public ResponseEntity<Set<BookingDTO>> getBookingsByCustomer(
       @RequestHeader("Authorization") String jwt) {
@@ -89,6 +95,7 @@ public class BookingController {
     return bookings.stream().map(BookingMapper::toDto).collect(Collectors.toSet());
   }
 
+  @Operation(summary = "Get bookings for the owner's salon")
   @GetMapping("/salon")
   public ResponseEntity<Set<BookingDTO>> getBookingsBySalon(
       @RequestHeader("Authorization") String jwt) {
@@ -103,6 +110,7 @@ public class BookingController {
     return ResponseEntity.ok(getBookingDTOs(bookings));
   }
 
+  @Operation(summary = "Get a booking by its ID")
   @GetMapping("/{bookingId}")
   public ResponseEntity<BookingDTO> getBookingsById(@PathVariable Long bookingId) {
 
@@ -111,6 +119,7 @@ public class BookingController {
     return ResponseEntity.ok(BookingMapper.toDto(booking));
   }
 
+  @Operation(summary = "Update status of a booking")
   @PutMapping("/{bookingId}/status")
   public ResponseEntity<BookingDTO> updateBookingStatus(
       @PathVariable Long bookingId, @RequestParam BookingStatus bookingStatus) {
@@ -120,6 +129,7 @@ public class BookingController {
     return ResponseEntity.ok(BookingMapper.toDto(booking));
   }
 
+  @Operation(summary = "Get booked slots for a specific salon and date")
   @GetMapping("/slots/salon/{salonId}/date/{date}")
   public ResponseEntity<List<BookingSlotDTO>> getBookedSlot(
       @PathVariable Long salonId, @PathVariable(required = false) LocalDate date) {
@@ -139,6 +149,7 @@ public class BookingController {
     return ResponseEntity.ok(slotsDTO);
   }
 
+  @Operation(summary = "Get booking and revenue report for the owner's salon")
   @GetMapping("/report")
   public ResponseEntity<SalonReport> getSalonReport(@RequestHeader("Authorization") String jwt) {
 

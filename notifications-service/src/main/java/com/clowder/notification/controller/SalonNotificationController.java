@@ -8,12 +8,15 @@ import com.clowder.notification.service.NotificationService;
 import com.clowder.notification.service.client.BookingClient;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Salon Owner Notifications", description = "Salon owner operations related to notifications")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/notifications/salon-owner")
@@ -22,6 +25,7 @@ public class SalonNotificationController {
   private final NotificationService notificationService;
   private final BookingClient bookingClient;
 
+  @Operation(summary = "Get notifications for a salon")
   @GetMapping("/salon/{salonId}")
   public ResponseEntity<List<NotificationDTO>> getNotificationsBySalonId(
       @PathVariable Long salonId) {

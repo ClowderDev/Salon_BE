@@ -28,6 +28,8 @@ public class SecurityConfig {
                     .permitAll()
                     .pathMatchers("/api/notifications/ws/**")
                     .permitAll()
+                    .pathMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**", "/*/v3/api-docs")
+                    .permitAll()
                     .pathMatchers(
                         "/api/categories/salon-owner/**",
                         "/api/notifications/salon-owner/**",

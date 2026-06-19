@@ -10,6 +10,8 @@ import com.clowder.salon.service.client.UserClient;
 import jakarta.validation.Valid;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Salons", description = "Operations related to salon management and searching")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/salons")
@@ -29,6 +32,7 @@ public class SalonController {
   private final SalonService salonService;
   private final UserClient userClient;
 
+  @Operation(summary = "Create a new salon")
   @PostMapping
   public ResponseEntity<SalonDTO> createSalon(
       @RequestBody @Valid SalonRequest salon, @RequestHeader("Authorization") String jwt) {
@@ -38,6 +42,7 @@ public class SalonController {
     return ResponseEntity.ok(dto);
   }
 
+  @Operation(summary = "Update an existing salon")
   @PatchMapping("/{id}")
   public ResponseEntity<SalonDTO> updateSalon(
       @RequestBody @Valid SalonRequest salon,
@@ -49,6 +54,7 @@ public class SalonController {
     return ResponseEntity.ok(dto);
   }
 
+  @Operation(summary = "Get all salons")
   @GetMapping
   public ResponseEntity<List<SalonDTO>> getAllSalons() {
     List<Salon> salons = salonService.getSalons();
@@ -56,6 +62,7 @@ public class SalonController {
     return ResponseEntity.ok(dtos);
   }
 
+  @Operation(summary = "Get a salon by its ID")
   @GetMapping("/{salonId}")
   public ResponseEntity<SalonDTO> getSalonById(@PathVariable Long salonId) {
     Salon salon = salonService.getSalonById(salonId);
@@ -63,6 +70,7 @@ public class SalonController {
     return ResponseEntity.ok(dto);
   }
 
+  @Operation(summary = "Get salons owned by the authenticated owner")
   @GetMapping("/owner")
   public ResponseEntity<List<SalonDTO>> getSalonsByOwnerId(
       @RequestHeader("Authorization") String jwt) {
@@ -75,6 +83,7 @@ public class SalonController {
     return ResponseEntity.ok(dtos);
   }
 
+  @Operation(summary = "Search salons by city name")
   @GetMapping("/search")
   public ResponseEntity<List<SalonDTO>> searchSalons(@RequestParam("city") String city) {
     List<SalonDTO> salons =

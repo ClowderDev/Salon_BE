@@ -8,6 +8,8 @@ import com.clowder.notification.service.NotificationService;
 import com.clowder.notification.service.client.BookingClient;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "Notifications", description = "Public operations related to user notifications")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/notifications")
@@ -25,12 +28,14 @@ public class NotificationController {
   private final NotificationService notificationService;
   private final BookingClient bookingClient;
 
+  @Operation(summary = "Create a new notification")
   @PostMapping
   public ResponseEntity<NotificationDTO> createNotification(
       @RequestBody Notification notification) {
     return ResponseEntity.ok(notificationService.createNotification(notification));
   }
 
+  @Operation(summary = "Get all notifications for a specific user ID")
   @GetMapping("/user/{userId}")
   public ResponseEntity<List<NotificationDTO>> getNotificationsByUserId(@PathVariable Long userId) {
     List<Notification> notifications = notificationService.getNotificationsByUserId(userId);

@@ -51,6 +51,63 @@ spring:
               predicates:
                 - Path=/api/reviews/**
 
+            - id: booking-service-docs
+              uri: lb://BOOKING-SERVICE
+              predicates:
+                - Path=/booking-service/v3/api-docs
+              filters:
+                - RewritePath=/booking-service/(?<segment>.*), /${segment}
+
+            - id: salon-service-docs
+              uri: lb://SALON-SERVICE
+              predicates:
+                - Path=/salon-service/v3/api-docs
+              filters:
+                - RewritePath=/salon-service/(?<segment>.*), /${segment}
+
+            - id: user-service-docs
+              uri: lb://USER-SERVICE
+              predicates:
+                - Path=/user-service/v3/api-docs
+              filters:
+                - RewritePath=/user-service/(?<segment>.*), /${segment}
+
+            - id: category-service-docs
+              uri: lb://CATEGORY-SERVICE
+              predicates:
+                - Path=/category-service/v3/api-docs
+              filters:
+                - RewritePath=/category-service/(?<segment>.*), /${segment}
+
+            - id: offering-service-docs
+              uri: lb://OFFERING-SERVICE
+              predicates:
+                - Path=/offering-service/v3/api-docs
+              filters:
+                - RewritePath=/offering-service/(?<segment>.*), /${segment}
+
+            - id: payment-service-docs
+              uri: lb://PAYMENT-SERVICE
+              predicates:
+                - Path=/payment-service/v3/api-docs
+              filters:
+                - RewritePath=/payment-service/(?<segment>.*), /${segment}
+
+            - id: review-service-docs
+              uri: lb://REVIEW-SERVICE
+              predicates:
+                - Path=/review-service/v3/api-docs
+              filters:
+                - RewritePath=/review-service/(?<segment>.*), /${segment}
+
+            - id: notification-service-docs
+              uri: lb://NOTIFICATIONS-SERVICE
+              predicates:
+                - Path=/notification-service/v3/api-docs
+              filters:
+                - RewritePath=/notification-service/(?<segment>.*), /${segment}
+
+
   security:
     oauth2:
       resourceserver:
