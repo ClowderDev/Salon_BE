@@ -5,24 +5,34 @@ import com.clowder.common.dto.shared.PaymentLinkResponse;
 import com.clowder.common.dto.shared.UserDTO;
 import com.clowder.common.enums.PaymentMethod;
 import com.clowder.payment.model.PaymentOrder;
-import com.razorpay.PaymentLink;
-import com.razorpay.RazorpayException;
-import com.stripe.exception.StripeException;
+
+import java.util.Map;
 
 public interface PaymentService {
 
   PaymentLinkResponse createOrder(UserDTO user, BookingDTO booking, PaymentMethod paymentMethod)
-      throws RazorpayException, StripeException;
+      throws Exception;
 
   PaymentOrder getPaymentOrderById(Long id);
 
   PaymentOrder getPaymentOrderByPaymentId(String paymentId);
 
-  PaymentLink createRazorPaymentLink(UserDTO user, Long amount, Long orderId)
-      throws RazorpayException;
+  String createVNPayPaymentUrl(UserDTO user, Long amount, Long orderId) throws Exception;
 
-  String createStripePaymentLink(UserDTO user, Long amount, Long orderId) throws StripeException;
+  String createMoMoPaymentUrl(UserDTO user, Long amount, Long orderId) throws Exception;
 
   Boolean proceedPayment(PaymentOrder paymentOrder, String paymentId, String paymentLinkId)
-      throws RazorpayException;
+      throws Exception;
+
+  /**
+   * Xác minh callback từ VNPay (redirect GET params).
+   * Return true nếu signature hợp lệ và giao dịch thành công.
+   */
+  Boolean verifyVNPayPayment(Map<String, String> params);
+
+  /**
+   * Xác minh IPN callback từ MoMo (POST body).
+   * Return true nếu signature hợp lệ và resultCode == 0.
+   */
+  Boolean verifyMoMoPayment(Map<String, Object> ipnBody);
 }

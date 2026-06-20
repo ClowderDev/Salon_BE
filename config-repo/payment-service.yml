@@ -11,11 +11,17 @@ spring:
     username: ${RABBITMQ_USER:guest}
     password: ${RABBITMQ_PASS:guest}
 
-razorpay:
-  api:
-    key: ${RAZORPAY_API_KEY:}
-    secret: ${RAZORPAY_API_SECRET:}
+vnpay:
+  tmn-code: ${VNPAY_TMN_CODE:DEMO1234}
+  hash-secret: ${VNPAY_HASH_SECRET:ABCDEFGHIJKLMNOP1234567890ABCDEF}
+  payment-url: https://sandbox.vnpayment.vn/paymentv2/vpcpay.html
+  return-url: http://localhost:3000/payment-success
+  api-url: https://sandbox.vnpayment.vn/merchant_webapi/api/transaction
 
-stripe:
-  api:
-    key: ${STRIPE_API_KEY:}
+momo:
+  partner-code: ${MOMO_PARTNER_CODE:MOMO}
+  access-key: ${MOMO_ACCESS_KEY:F8BBA842ECF85}
+  secret-key: ${MOMO_SECRET_KEY:K951B6PE1waDMi640xX08PD3vg6EkVlz}
+  endpoint: https://test-payment.momo.vn/v2/gateway/api/create
+  return-url: http://localhost:3000/payment-success
+  notify-url: ${MOMO_NOTIFY_URL:http://localhost:8006/api/payments/momo/callback}
